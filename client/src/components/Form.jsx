@@ -16,7 +16,7 @@ function Form() {
           <TextField fullWidth  type = "password" id="outlined-basic" label="Passsword" variant="outlined" sx={{width : '400px', my:1}}/>          
          <TextField fullWidth id="outlined-basic" type='number' label="CNIC *" variant="outlined" sx={{width : '400px', my:1}}/>
 
-         <FormControl fullWidth sx={{ width: '400px', my: 1 }}>
+         <FormControl fullWidth sx={{ width: '400px', }}>
             <InputLabel id="demo-select-small-label">Program</InputLabel>
             <Select
               labelId="demo-select-small-label"
