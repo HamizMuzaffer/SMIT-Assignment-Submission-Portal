@@ -32,7 +32,8 @@ function Form() {
               <MenuItem value={20}>Twenty</MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
-          </FormControl><FormControl fullWidth sx={{ width: '400px', my: 1 }}>
+          </FormControl>
+          <FormControl fullWidth sx={{ width: '400px', my: 1 }}>
             <InputLabel id="demo-select-small-label">Teacher Name</InputLabel>
             <Select
               labelId="demo-select-small-label"

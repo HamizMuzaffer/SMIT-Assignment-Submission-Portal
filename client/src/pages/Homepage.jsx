@@ -2,6 +2,9 @@ import { Box, Container, CardMedia, Button, } from '@mui/material'
 import React from 'react'
 import smitImage from '../assets/smit.png'
 import { Link } from 'react-router-dom'
+import { PiStudentBold} from "react-icons/pi";
+import { FaMouse } from "react-icons/fa";
+
 
 function Homepage() {
   return (
@@ -15,12 +18,12 @@ function Homepage() {
             sx={{ width: '30%', height: '30%', }}
           />
           <Link to='/login'>
-            <Button variant='contained' sx={{ px: 8, py: 1, m: 2 }}>
+            <Button variant='contained' sx={{ px: 8, py: 1, m: 2 }} startIcon = {<FaMouse />}>
               Continue as a Teacher
             </Button>
           </Link>
           <Link to='/signup'>
-            <Button variant='contained' sx={{ px: 8, py: 1, m: 2 }}>
+            <Button variant='contained' startIcon = {<PiStudentBold />} sx={{ px: 8, py: 1, m: 2 }}>
               Continue as a Student
             </Button>
           </Link>
