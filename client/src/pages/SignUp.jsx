@@ -4,7 +4,7 @@ import Form from '../components/Form'
 import LoginForm from '../components/LoginForm'
 import image from '../assets/smit.png'
 function SignUp() {
-
+   
         const [isSignup, setIsSignup] = React.useState(true);
     
         const toggleForm = () => {
