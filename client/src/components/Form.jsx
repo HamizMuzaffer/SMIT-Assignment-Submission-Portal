@@ -3,11 +3,13 @@ import { FormControl, InputLabel, FormHelperText, TextField, Select, MenuItem, B
 import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import { signupUser } from '../features/user/userSlice';
+import SimpleAlert from '../components/Alert';
+
 function Form() {
 
   
   const [open, setOpen] = useState(false);
-
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -53,13 +55,17 @@ function Form() {
   
 
   return (
+    
     <>
+    {open ? <SimpleAlert /> : null}
+
 <form onSubmit={handleSubmit}>
       <FormControl>
         <TextField
           fullWidth
+          required 
           name="name"
-          label="Name *"
+          label="Name"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
           value={formData.name}
@@ -67,9 +73,10 @@ function Form() {
         />
         <TextField
           fullWidth
+          required
           type="email"
           name="email"
-          label="Your Email *"
+          label="Your Email"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
           value={formData.email}
@@ -80,6 +87,7 @@ function Form() {
         </FormHelperText>
         <TextField
           fullWidth
+          required
           type="password"
           name="password"
           label="Password"
@@ -90,26 +98,25 @@ function Form() {
         />
         <TextField
           fullWidth
+          required
           type="number"
           name="CNIC"
-          label="CNIC *"
+          label="CNIC"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
           value={formData.cnic}
           onChange={handleChange}
         />
         <FormControl fullWidth sx={{ width: '400px' }}>
-          <InputLabel id="program-label">courseName</InputLabel>
+          <InputLabel id="program-label">Course Name</InputLabel>
           <Select
             labelId="program-label"
+            required
             name="courseName"
             value={formData.courseName || ''}
             label="Program"
             onChange={handleChange}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value="Program1">Program1</MenuItem>
             <MenuItem value="Program2">Program2</MenuItem>
             <MenuItem value="Program3">Program3</MenuItem>
@@ -120,13 +127,11 @@ function Form() {
           <Select
             labelId="teacherName-label"
             name="teacherName"
+            required
             value={formData.teacherName || ''}
             label="Teacher Name"
             onChange={handleChange}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value="Teacher1">Teacher1</MenuItem>
             <MenuItem value="Teacher2">Teacher2</MenuItem>
             <MenuItem value="Teacher3">Teacher3</MenuItem>
@@ -138,7 +143,6 @@ function Form() {
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </FormControl>
     </form>
-
     </>
   )
 }
