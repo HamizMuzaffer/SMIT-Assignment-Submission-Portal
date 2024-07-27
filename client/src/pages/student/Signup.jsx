@@ -1,16 +1,10 @@
 import { Container, Box, CardMedia, Typography, Button } from '@mui/material'
 import React from 'react'
-import Form from '../components/Form'
-import LoginForm from '../components/LoginForm'
-import image from '../assets/smit.png'
-
+import image from '../../assets/smit.png'
+import Form from '../../components/Form'
+import { Link } from 'react-router-dom'
 function SignUp() {
-
-    const [isSignup, setIsSignup] = React.useState(true);
-
-    const toggleForm = () => {
-        setIsSignup(!isSignup);
-    };
+   
 
     return (
         <>  
@@ -32,12 +26,14 @@ function SignUp() {
                         alt="Description"
                         sx={{ width: '30%', height: 'auto', mb: 2 }}
                     />
-                    <Typography variant='h6' sx={{ fontWeight: '' }}>{isSignup ? 'Student Sign Up ' : 'Student Log In'}
+                    <Typography variant='h6' sx={{ fontWeight: '' }}>Student Sign Up
                     </Typography>
-                    {isSignup ? <Form /> : <LoginForm />}
-                    <Button onClick={toggleForm} sx={{ mt: 2, color: 'black' }} >
-                        {isSignup ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
+                     < Form />
+                     <Link to='/student/login'>
+                    <Button  sx={{ mt: 2, color: 'black' }} >
+                        Already have an account? Login' 
                     </Button>
+                    </Link>
                  </Box>
             </Container>
         </>

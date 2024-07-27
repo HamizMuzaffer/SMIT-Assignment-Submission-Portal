@@ -1,5 +1,5 @@
 import React from 'react'
-import PersistentDrawerLeft from '../components/PersistentDrawerLeft'
+import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
 
 function Student() {
   return (

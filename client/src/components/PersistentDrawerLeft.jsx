@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -18,8 +18,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { CardMedia } from '@mui/material';
-import image from '../assets/smit.png'
+import { CardMedia, Menu, MenuItem, Avatar, Tooltip } from '@mui/material';
+import image from '../assets/smit.png';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 
 const drawerWidth = 240;
@@ -40,7 +40,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       }),
       marginLeft: 0,
     }),
-  }),
+  })
 );
 
 const AppBar = styled(MuiAppBar, {
@@ -64,7 +64,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -72,6 +71,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -81,10 +81,18 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{height : '10vh', bgcolor : '#0b73b7'}}>
+      <AppBar position="fixed" open={open} sx={{ height: '10vh', bgcolor: '#0b73b7' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -95,10 +103,39 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" startIcon = {<WavingHandIcon />}>
-            Welcome to Sir Raja Ehsan Class 👋
+          <Typography variant="h6" noWrap component="div">
+            Welcome to Sir Raja Ehsan's Class <WavingHandIcon />
           </Typography>
-          
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {['Profile', 'Account', 'Dashboard', 'Logout'].map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -157,10 +194,7 @@ export default function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         <Typography paragraph>
-          
-        </Typography>
-        <Typography paragraph>
-          
+          {/* Add your content here */}
         </Typography>
       </Main>
     </Box>

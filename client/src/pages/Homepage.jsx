@@ -17,12 +17,12 @@ function Homepage() {
             alt="Description"
             sx={{ width: '30%', height: '30%', }}
           />
-          <Link to='/login'>
+          <Link to='/teacher/login'>
             <Button variant='contained' sx={{ px: 8, py: 1, m: 2 }} startIcon = {<FaMouse />}>
               Continue as a Teacher
             </Button>
           </Link>
-          <Link to='/signup'>
+          <Link to='/student/signup'>
             <Button variant='contained' startIcon = {<PiStudentBold />} sx={{ px: 8, py: 1, m: 2 }}>
               Continue as a Student
             </Button>

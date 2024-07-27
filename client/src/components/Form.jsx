@@ -3,13 +3,12 @@ import { FormControl, InputLabel, FormHelperText, TextField, Select, MenuItem, B
 import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import { signupUser } from '../features/user/userSlice';
-import SimpleAlert from '../components/Alert';
-
+import { useNavigate } from "react-router-dom";
+import  SimpleAlert from '../components/Alert'
 function Form() {
 
   
-  const [open, setOpen] = useState(false);
-  
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,15 +28,13 @@ function Form() {
       [name]: value,
     });
   };
+  const [alert, setAlert] = useState({ severity: '', message: '' });
 
   const handleSubmit = async(event) => {
-    event.preventDefault();
-    await dispatch(signupUser(formData)).unwrap();
-
+    event.preventDefault(); 
     try {
-      setAlertMessage('Registration successful!');
-      setAlertSeverity('success');
-      setOpen(true);
+      await dispatch(signupUser(formData)).unwrap();
+     setAlert({severity : 'success' , message : "Sucessfully Registered"})
       // Reset form fields
       setFormData({
         name: '',
@@ -47,8 +44,13 @@ function Form() {
         program: '',
         teacherName: '',
       });
+      setTimeout(() => {
+        navigate('/student/login');
+      }, 1000);
     } catch (err) {
-      console.log(error.message)
+      setAlert({severity : 'error' , message : "User already exist "})
+
+      console.log(err.message)
     }
   };
 
@@ -57,7 +59,7 @@ function Form() {
   return (
     
     <>
-    {open ? <SimpleAlert /> : null}
+      {alert.message && <SimpleAlert severity={alert.severity} message={alert.message} />}
 
 <form onSubmit={handleSubmit}>
       <FormControl>
@@ -140,7 +142,6 @@ function Form() {
         <Button variant="contained" type="submit" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </Button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
       </FormControl>
     </form>
     </>

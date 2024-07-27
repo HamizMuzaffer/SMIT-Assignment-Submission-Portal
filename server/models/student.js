@@ -9,11 +9,13 @@ const studentSchema = mongoose.Schema({
     },
     email : {
         type : String,
-        requrired : true
+        requrired : true,
+        unique : true
     },
     CNIC : {
        type : Number,
-       required : true
+       required : true,
+       unique : true
     },
     password : {
         type : String,

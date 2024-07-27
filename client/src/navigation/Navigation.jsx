@@ -2,9 +2,9 @@ import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
 import TeacherLogin from '../pages/TeacherLogin';
-import SignUp from '../pages/SignUp';
-import Student from '../pages/Student';
-
+import Student from '../pages/student/Student';
+import SignUp from '../pages/student/Signup';
+import LoginForm from '../pages/student/LoginForm';
 function Navigation() {
   const router = createBrowserRouter([
     {
@@ -12,12 +12,16 @@ function Navigation() {
       element: <Homepage />,
     },
     {
-      path: '/login',
+      path: '/teacher/login',
       element: <TeacherLogin />,
     },
     {
-      path: '/signup',
+      path: '/student/signup',
       element: <SignUp />,
+    },
+    {
+      path: '/student/login',
+      element: <LoginForm />,
     },
     {
       path : '/student/home',
