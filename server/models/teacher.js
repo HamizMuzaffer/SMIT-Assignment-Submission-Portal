@@ -48,7 +48,7 @@ teacherSchema.static("matchPasswordAndGenerateToken", async function (email, pas
     if (userProvidedPassword !== hashedPassword) throw new Error("Incorrect Password");
 
     const token = createTokenForUser(teacher);
-    return token;
+    return {token,teacher};
 });
 
 

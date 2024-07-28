@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
-import TeacherLogin from '../pages/TeacherLogin';
+import TeacherLogin from '../pages/teacher/TeacherLogin';
 import Student from '../pages/student/Student';
 import Cookies from 'js-cookie';
 import Notes from '../pages/student/Notes';
@@ -11,7 +11,7 @@ import SignUp from '../pages/student/Signup';
 import Discussion from '../pages/student/Discussion';
 import Course from '../pages/student/Course';
 import Announcement from '../pages/student/Announcement';
-
+import Teacher from '../pages/teacher/Teacher';
 function Navigation() {
   const token = Cookies.get("token")
 
@@ -23,6 +23,10 @@ function Navigation() {
     {
       path: '/teacher/login',
       element:  <TeacherLogin />,
+    },
+    {
+      path: '/teacher/home',
+      element: <Teacher /> 
     },
     {
       path: '/student/signup',

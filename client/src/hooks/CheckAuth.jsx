@@ -8,8 +8,9 @@ const useAuthRedirect = () => {
   useEffect(() => {
     const token = Cookies.get('token');
     if (!token) {
-      navigate('/student/login');
+      navigate('/');
     }
+
     
   }, [navigate]);
 };

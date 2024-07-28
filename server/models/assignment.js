@@ -13,13 +13,12 @@ const assignmentSchema = new mongoose.Schema({
         type: Date,
          required: true
          },
-    class: { 
-        type: mongoose.Schema.Types.ObjectId,
-         ref: 'Class',
-         required: true
-         },       
     fileUrl: { 
         type: String
+    },
+    teacherId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref  : 'Teacher'
     },
     createdAt: { 
         type: Date,

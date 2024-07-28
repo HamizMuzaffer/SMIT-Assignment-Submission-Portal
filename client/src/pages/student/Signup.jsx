@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 function SignUp() {
     return (
         <>  
-            <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '500', }}>
+            <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', width: '500', pt : 6 }}>
                 <Box
                     sx={{
                         display: 'flex',
@@ -23,7 +23,7 @@ function SignUp() {
                         component="img"
                         image={image}
                         alt="Description"
-                        sx={{ width: '30%', height: 'auto', mb: 2 }}
+                        sx={{ width: '28%', height: 'auto', mb: 2 }}
                     />
                     <Typography variant='h6' sx={{ fontWeight: '' }}>Student Sign Up
                     </Typography>

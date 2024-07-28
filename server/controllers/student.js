@@ -15,9 +15,18 @@ const studentSignUpHandler = async (req, res) => {
 const studentLogInHandler = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const token = await Student.matchPasswordAndGenerateToken(email, password)
-    res.status(200).cookie("token", token).json({ token });
-
+    const {token,student} = await Student.matchPasswordAndGenerateToken(email, password)
+    
+    res.cookie("token", token)
+    res.status(200).json({ 
+      message: 'Login successful', 
+      student: {
+        name: student.name,
+        email: student.email,
+        teacherName : student.teacherName
+        // Add other user fields as needed
+      }
+    });
   } catch (error) {
     return res.status(400).json({ error: error.message })
 

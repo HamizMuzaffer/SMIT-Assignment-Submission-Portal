@@ -9,9 +9,6 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -29,6 +26,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -125,8 +123,8 @@ const navigate = useNavigate()
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ height: '10vh', bgcolor: '#0b73b7' }}>
   <Toolbar>
-    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-      Welcome to Sir Raja Ehsan Class 👋
+    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display : 'flex', alignItems : 'center', justifyContent : 'center'}}>
+      Welcome to Sir Raja Ehsan's Class   <WavingHandIcon />
     </Typography>
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">

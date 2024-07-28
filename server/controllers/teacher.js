@@ -1,5 +1,5 @@
 const Teacher = require("../models/teacher")
-
+const Assignment = require("../models/assignment")
 async function teacherSignUpHandler(req,res){
     const body = req.body;
     try {
@@ -14,16 +14,30 @@ async function teacherSignUpHandler(req,res){
 async function teacherLoginHandler(req,res){
     const {email,password} = req.body;
     try {
-        const token = await Teacher.matchPasswordAndGenerateToken(email,password)
-        res.status(200).cookie("token",token).redirect("/")
-    
+        const {token, teacher} = await Teacher.matchPasswordAndGenerateToken(email,password)
+        res.cookie("token", token)
+        res.status(200).json({ 
+          message: 'Login successful', 
+          teacher: {
+            name: teacher.name,
+            email: teacher.email,
+            id : teacher._id
+          }
+
+        });    
       } catch (error) {
-        return res.status(200).json({error : error.message})
+        return res.status(401).json({error : error.message})
     
       }
 }     
 
+async function postAssignment(req,res){
+     const body = req.body 
+     await Assignment.create(body)
+}
+
 module.exports = {
     teacherLoginHandler,
-    teacherSignUpHandler
+    teacherSignUpHandler,
+    postAssignment
 }
