@@ -10,9 +10,7 @@ const useAuthRedirect = () => {
     if (!token) {
       navigate('/student/login');
     }
-    else {
-    navigate('/student/home')
-    }
+    
   }, [navigate]);
 };
 

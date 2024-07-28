@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../features/user/userSlice';
 import useAuthRedirect from '../../hooks/CheckAuth';
 function LoginForm() {
+    useAuthRedirect()
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '',
@@ -34,7 +35,7 @@ function LoginForm() {
             setAlert({ severity: 'success', message: "Login Successful" });
             setTimeout(() => {
                 navigate('/student/home');
-            }, 2000);
+            }, 1000);
         } catch (error) {
             setAlert({ severity: 'error', message: "Login Failed: Incorrect Password or Email" });
             console.error(error); // Log the entire error for debugging purposes

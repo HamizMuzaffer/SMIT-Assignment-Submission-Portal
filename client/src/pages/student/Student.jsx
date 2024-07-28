@@ -8,7 +8,7 @@ function Student() {
   return (
 <>
 <PersistentDrawerLeft />
-<Student />
+<div>Hello</div>
 </>
 
 )

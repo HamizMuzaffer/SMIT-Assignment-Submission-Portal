@@ -26,7 +26,8 @@ const studentLogInHandler = async (req, res) => {
 }
 
 const studentLogoutHandler = async(req,res) => {
-  res.clearCookie('token').redirect('/')
+  res.clearCookie('token'); // Ensure the path matches where the cookie was set
+  res.status(200).json({ message: 'Logout successful' });
 }
 
 

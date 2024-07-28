@@ -4,7 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
-
+.containerWithDrawer {
+  margin-left: 240px; /* Adjust this value based on the width of your drawer */
+  padding: 10px; /* Add padding as needed */
+}
 .logo {
   height: 6em;
   padding: 1.5em;

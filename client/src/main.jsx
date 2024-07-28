@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Navigation from './navigation/Navigation';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import store from './store/store';
-
+import Navigation from './navigation/Navigation';
 const theme = createTheme({
   typography: {
     fontFamily: 'Signika',

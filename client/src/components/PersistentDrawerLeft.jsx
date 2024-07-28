@@ -25,10 +25,11 @@ import Avatar from '@mui/material/Avatar';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
@@ -78,16 +79,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+const navigate = useNavigate()
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -95,20 +91,40 @@ export default function PersistentDrawerLeft() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleLogout = async () => {
+ 
+    try {
+      const response = await axios.get("http://localhost:3000/student/logout");
+      // Handle the response if necessary, for example:
+      console.log('Logout response:', response.data);
+      
+      // Assuming the logout was successful, you can clear user-related data here
+      // Remove the token from cookies
+      Cookies.remove('token');
+      
+      // Clear any other user-related data if needed
+      // localStorage.removeItem('user'); // Example for localStorage
+  
+      setAnchorElUser(null);
+      navigate('/student/login');
+    } catch (error) {
+      console.error("Error logging out:", error.response ? error.response.data : error.message);
+      // Handle the error, for example by showing a notification to the user
+  
+      // Clear user-related data regardless of the API response
+      Cookies.remove('token');
+      // localStorage.removeItem('user'); // Example for localStorage
+  
+      setAnchorElUser(null);
+      navigate('/student/login');
+    }
+  };
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ height: '10vh', bgcolor: '#0b73b7' }}>
   <Toolbar>
-    <IconButton
-      color="inherit"
-      aria-label="open drawer"
-      onClick={handleDrawerOpen}
-      edge="start"
-      sx={{ mr: 2, ...(open && { display: 'none' }) }}
-    >
-      <MenuIcon />
-    </IconButton>
     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
       Welcome to Sir Raja Ehsan Class 👋
     </Typography>
@@ -134,11 +150,10 @@ export default function PersistentDrawerLeft() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
+          
+          <MenuItem  onClick={handleLogout}>
+            <Typography sx={{px:2}} textAlign="center">Log Out</Typography>
           </MenuItem>
-        ))}
       </Menu>
     </Box>
   </Toolbar>
@@ -166,16 +181,14 @@ export default function PersistentDrawerLeft() {
               sx={{ width: '60%', height: 'auto', mb: 2 }}
             />
           </Box>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+          
         </DrawerHeader>
         <Divider />
         <List>
           {['Assignments', 'Discussion', 'Announcements'].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
+              <ListItemButton component={Link} to={`/student/${text.toLowerCase().replace(' ', '-')}`}>
+                <ListItemIcon >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
@@ -185,9 +198,9 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['Course Outline', 'Notes'].map((text, index) => (
+          {['Course', 'Notes'].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton component={Link} to={`/student/${text.toLowerCase().replace(' ', '-')}`}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>

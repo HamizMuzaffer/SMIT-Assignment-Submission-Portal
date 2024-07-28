@@ -10,6 +10,8 @@ import LoginForm from '../pages/student/LoginForm';
 import SignUp from '../pages/student/Signup';
 import Discussion from '../pages/student/Discussion';
 import Course from '../pages/student/Course';
+import Announcement from '../pages/student/Announcement';
+
 function Navigation() {
   const token = Cookies.get("token")
 
@@ -20,20 +22,45 @@ function Navigation() {
     },
     {
       path: '/teacher/login',
-      element: <TeacherLogin />,
+      element:  <TeacherLogin />,
     },
     {
       path: '/student/signup',
-      element :  <SignUp />
+      element : token ? <Student /> : <SignUp />
     },
     {
       path: '/student/login',
-      element : <LoginForm />
+      element : token ? <Student /> :  <LoginForm />
     },
     {
       path: '/student/home',
       element: <Student />,
     },
+    
+    {
+      path: '/student/assignments',
+      element: <Assignments />,
+    },
+    
+    {
+      path: '/student/discussion',
+      element: <Discussion />,
+    },
+    
+    {
+      path: '/student/notes',
+      element: <Notes />,
+    },
+    
+    {
+      path: '/student/course',
+      element: <Course />,
+    },
+    {
+      path: '/student/announcements',
+      element: <Announcement />,
+    },
+    
     
   ]);
 
