@@ -1,13 +1,28 @@
-import {React,useState} from 'react'
+import {React,useState,useEffect} from 'react'
 import { FormControl, InputLabel, FormHelperText, TextField, Select, MenuItem, Button,Alert,Snackbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import { signupUser } from '../features/user/userSlice';
 import { useNavigate } from "react-router-dom";
 import  SimpleAlert from '../components/Alert'
-
+import getTeachers from '../services/getTeacher';
 function Form() {
+  const [teachers, setTeachers] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getTeachers();
+        setTeachers(data);
+      } catch (error) {
+        console.error('Error fetching teachers:', error);
+      }
+    };
+  
+  
+  fetchData();
+  }, []);
+  
   
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -135,9 +150,11 @@ function Form() {
             label="Teacher Name"
             onChange={handleChange}
           >
-            <MenuItem value="Teacher1">Teacher1</MenuItem>
-            <MenuItem value="Teacher2">Teacher2</MenuItem>
-            <MenuItem value="Teacher3">Teacher3</MenuItem>
+          {teachers.map((teacher) => (
+          <MenuItem key={teacher.id} value={teacher.name}>
+            {teacher.name}
+          </MenuItem>
+        ))}
           </Select>
         </FormControl>
         <Button variant="contained" type="submit" disabled={loading}>

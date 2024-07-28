@@ -36,8 +36,21 @@ async function postAssignment(req,res){
      await Assignment.create(body)
 }
 
+
+async function getTeachers(req,res){
+  try {
+    const teachers = await Teacher.find({})
+    return res.status(200).json(teachers)
+
+  } catch (error) {
+    res.status(401).json({error:error.message})
+  }
+}
+
 module.exports = {
     teacherLoginHandler,
     teacherSignUpHandler,
-    postAssignment
+    postAssignment,
+    getTeachers
+
 }
