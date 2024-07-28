@@ -2,16 +2,15 @@ import React from 'react'
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
 import useAuthRedirect from '../../hooks/CheckAuth';
 
-function Student() {
-  useAuthRedirect()
+function Course() {
+    useAuthRedirect()
 
   return (
-<>
-<PersistentDrawerLeft />
-<Student />
-</>
-
-)
+    <>
+    <PersistentDrawerLeft />
+    <div>Course</div>
+    </>
+  )
 }
 
-export default Student
+export default Course

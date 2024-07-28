@@ -16,17 +16,22 @@ const studentLogInHandler = async (req, res) => {
   const { email, password } = req.body;
   try {
     const token = await Student.matchPasswordAndGenerateToken(email, password)
-    res.status(200).cookie("token", token).redirect("/")
+    res.status(200).cookie("token", token).json({ token });
 
   } catch (error) {
-    return res.status(200).json({ error: error.message })
+    return res.status(400).json({ error: error.message })
 
   }
 
 }
 
+const studentLogoutHandler = async(req,res) => {
+  res.clearCookie('token').redirect('/')
+}
+
 
 module.exports = {
   studentLogInHandler,
-  studentSignUpHandler
+  studentSignUpHandler,
+  studentLogoutHandler
 }

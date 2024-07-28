@@ -3,9 +3,8 @@ import React from 'react'
 import image from '../../assets/smit.png'
 import Form from '../../components/Form'
 import { Link } from 'react-router-dom'
-function SignUp() {
-   
 
+function SignUp() {
     return (
         <>  
             <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '500', }}>

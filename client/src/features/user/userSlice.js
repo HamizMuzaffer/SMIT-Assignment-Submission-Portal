@@ -2,14 +2,15 @@
 // features/user/userSlice.js
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
+import axiosInstance from '../../services/auth';
+import Cookies from 'js-cookie';
 const initialState = {
   user: null,
   isAuthenticated: false,
 };
 export const signupUser = createAsyncThunk('student/signup', async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/student/signup', userData);
-      console.log(response)
+      const response = await axiosInstance.post('/student/signup', userData);
       return response.data;
     } catch (err) {
         return rejectWithValue(err.response?.data?.message || 'An error occurred');
@@ -19,8 +20,9 @@ export const signupUser = createAsyncThunk('student/signup', async (userData, { 
   // Login action
   export const loginUser = createAsyncThunk('student/login', async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/student/login', userData);
-      console.log(response)
+      const response = await axiosInstance.post('/student/login', userData);
+      const token = response.data.token;
+      Cookies.set('token', token);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -36,6 +38,7 @@ export const signupUser = createAsyncThunk('student/signup', async (userData, { 
       logout(state) {
         state.user = null;
         state.isAuthenticated = false;
+        Cookies.remove('token');
       },
     },
     extraReducers: (builder) => {
