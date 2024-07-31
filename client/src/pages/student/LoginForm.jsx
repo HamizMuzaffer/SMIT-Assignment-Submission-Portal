@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../features/user/userSlice';
 import useAuthRedirect from '../../hooks/CheckAuth';
 function LoginForm() {
-    useAuthRedirect()
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '',

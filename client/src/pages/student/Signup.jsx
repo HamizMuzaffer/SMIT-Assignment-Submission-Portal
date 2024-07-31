@@ -30,7 +30,7 @@ function SignUp() {
                      < Form />
                      <Link to='/student/login'>
                     <Button  sx={{ mt: 2, color: 'black' }} >
-                        Already have an account? Login' 
+                        Already have an account? Login
                     </Button>
                     </Link>
                  </Box>

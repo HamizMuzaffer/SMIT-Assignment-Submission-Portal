@@ -17,6 +17,10 @@ const teacherSchema = mongoose.Schema({
         type : String,
         require : true
     },
+    course : {
+        type : String,
+        required : true
+    },
     salt : {
         type : String,      
      }

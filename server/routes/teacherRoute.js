@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router();
-const {teacherLoginHandler,teacherSignUpHandler,postAssignment,getTeachers} = require("../controllers/teacher")
+const {teacherLoginHandler,teacherSignUpHandler,postAssignment,getTeachers,getCourse,createCourse} = require("../controllers/teacher")
 const Teacher = require("../models/teacher")
 
 
@@ -17,4 +17,6 @@ router.post("/signup",teacherSignUpHandler)
 router.post("/login",teacherLoginHandler)
 router.post("/assignment",postAssignment)
 router.get('/',getTeachers)
+router.post('/course',createCourse)
+router.get('/course',getCourse)
 module.exports = router;

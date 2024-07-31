@@ -12,15 +12,13 @@ const initialState = {
       const response = await axiosInstance.post('/teacher/login', teacherData);
       const { teacher, token } = response.data;
       Cookies.set('token', token);
-      console.log({teacher : teacher})
+      console.log({teacher : teacher});
       return teacher;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
   });
   
-
-
   const teacherSlice = createSlice({
     name: 'teacher',
     initialState,

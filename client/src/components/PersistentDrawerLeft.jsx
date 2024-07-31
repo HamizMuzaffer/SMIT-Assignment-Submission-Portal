@@ -69,7 +69,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -92,26 +91,13 @@ const navigate = useNavigate()
  
     try {
       const response = await axios.get("http://localhost:3000/student/logout");
-      // Handle the response if necessary, for example:
       console.log('Logout response:', response.data);
-      
-      // Assuming the logout was successful, you can clear user-related data here
-      // Remove the token from cookies
-      Cookies.remove('token');
-      
-      // Clear any other user-related data if needed
-      // localStorage.removeItem('user'); // Example for localStorage
-  
+      Cookies.remove('token');  
       setAnchorElUser(null);
       navigate('/student/login');
     } catch (error) {
-      console.error("Error logging out:", error.response ? error.response.data : error.message);
-      // Handle the error, for example by showing a notification to the user
-  
-      // Clear user-related data regardless of the API response
-      Cookies.remove('token');
-      // localStorage.removeItem('user'); // Example for localStorage
-  
+      console.error("Error logging out:", error.response ? error.response.data : error.message);  
+      Cookies.remove('token');  
       setAnchorElUser(null);
       navigate('/student/login');
     }

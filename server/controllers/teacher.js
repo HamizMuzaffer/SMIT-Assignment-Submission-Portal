@@ -1,5 +1,7 @@
 const Teacher = require("../models/teacher")
 const Assignment = require("../models/assignment")
+const Course = require("../models/course")
+
 async function teacherSignUpHandler(req,res){
     const body = req.body;
     try {
@@ -27,7 +29,6 @@ async function teacherLoginHandler(req,res){
         });    
       } catch (error) {
         return res.status(401).json({error : error.message})
-    
       }
 }     
 
@@ -47,10 +48,32 @@ async function getTeachers(req,res){
   }
 }
 
+async function createCourse(req,res) {
+  const body = req.body;
+  try {
+    const newCourse = await Course.create(body)
+    res.status(200).json(newCourse)
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+async function getCourse(req,res){
+  try {
+    const Courses = await Course.find({})
+    return res.status(200).json(Courses)
+
+  } catch (error) {
+    res.status(401).json({error:error.message})
+  }
+}
+
 module.exports = {
     teacherLoginHandler,
     teacherSignUpHandler,
     postAssignment,
-    getTeachers
+    getTeachers,
+    createCourse,
+    getCourse
 
 }

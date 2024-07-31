@@ -1,13 +1,13 @@
 import React from 'react'
 import useAuthRedirect from '../../hooks/CheckAuth';
-
+import MiniDrawer from '../../components/Drawer';
 function Teacher()
 
  {
     useAuthRedirect()
 
   return (
-    <div>Teacher</div>
+    <MiniDrawer />
   )
 }
 

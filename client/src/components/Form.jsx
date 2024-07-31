@@ -1,19 +1,22 @@
 import {React,useState,useEffect} from 'react'
 import { FormControl, InputLabel, FormHelperText, TextField, Select, MenuItem, Button,Alert,Snackbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
-import CheckIcon from '@mui/icons-material/Check';
 import { signupUser } from '../features/user/userSlice';
 import { useNavigate } from "react-router-dom";
 import  SimpleAlert from '../components/Alert'
 import getTeachers from '../services/getTeacher';
+import getCourses from '../api/getCourses';
 function Form() {
   const [teachers, setTeachers] = useState([]);
+   const [courses,setCourses] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getTeachers();
+        const courseData = await getCourses()
         setTeachers(data);
+        setCourses(courseData);
       } catch (error) {
         console.error('Error fetching teachers:', error);
       }
@@ -135,9 +138,11 @@ function Form() {
             label="Program"
             onChange={handleChange}
           >
-            <MenuItem value="Program1">Program1</MenuItem>
-            <MenuItem value="Program2">Program2</MenuItem>
-            <MenuItem value="Program3">Program3</MenuItem>
+            {courses.map((course) => (
+          <MenuItem key={course.id} value={course.course}>
+            {course.course}
+          </MenuItem>
+        ))}
           </Select>
         </FormControl>
         <FormControl fullWidth sx={{ width: '400px', my: 1 }}>
@@ -150,11 +155,12 @@ function Form() {
             label="Teacher Name"
             onChange={handleChange}
           >
-          {teachers.map((teacher) => (
-          <MenuItem key={teacher.id} value={teacher.name}>
-            {teacher.name}
-          </MenuItem>
-        ))}
+{teachers.filter((teacher) => teacher.course === formData.courseName).map((filteredTeacher) => (
+  <MenuItem key={filteredTeacher.id} value={filteredTeacher.name}>
+    {filteredTeacher.name}
+  </MenuItem>
+))}
+
           </Select>
         </FormControl>
         <Button variant="contained" type="submit" disabled={loading}>
