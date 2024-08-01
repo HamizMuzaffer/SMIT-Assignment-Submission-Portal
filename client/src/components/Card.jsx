@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Box, Card, CardActions, CardContent, Button, Typography, CardMedia } from '@mui/material'
-
+import { useNavigate } from 'react-router';
 
 
 export default function BasicCard({ assignments }) {
     const isoDateString = assignments.dueDate;
     const date = new Date(isoDateString);
-
+    const navigate = useNavigate()
     const pstOffset = 5 * 60 * 60 * 1000; // Offset in milliseconds
     const pstDate = new Date(date.getTime() + pstOffset);
 
@@ -15,7 +15,9 @@ export default function BasicCard({ assignments }) {
         month: 'long',
         day: 'numeric'
     });
-
+    const handleViewDetails = () => {
+        navigate(`/teacher/assignment/${assignments._id}`);
+      };
     return (
         <Card sx={{ minWidth: 275, width: '80%', my: 3, bgcolor: 'whitesmoke' }}>
             <CardContent>
@@ -32,7 +34,7 @@ export default function BasicCard({ assignments }) {
 
             </CardContent>
             <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-                <Button size="small" variant='contained'>View Submissions</Button>
+                <Button onClick={handleViewDetails} size="small" variant='contained'>View Submissions</Button>
             </CardActions>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
                 <Typography variant="body2">

@@ -30,4 +30,17 @@ async function getAssignments(req,res){
 
 }
 
-module.exports = { postAssignment,getAssignments}
+async function getAssignmentById(req,res){
+    try {
+        const assignment = await Assignment.findById(req.params.id);
+        if (!assignment) {
+          return res.status(404).json({ error: 'Assignment not found' });
+        }
+        res.json(assignment);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+
+module.exports = { postAssignment,getAssignments,getAssignmentById}

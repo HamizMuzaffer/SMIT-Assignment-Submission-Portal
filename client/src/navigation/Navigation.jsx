@@ -2,7 +2,7 @@ import React from 'react';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
 import Cookies from 'js-cookie';
-import { TeacherAnnouncement,TeacherAssignments,TeacherCourse,TeacherDiscussion,Leaderboard,TeacherLogin,TeacherNotes,Teacher } from '../pages/teacher/index';
+import { TeacherAnnouncement,TeacherAssignments,TeacherCourse,TeacherDiscussion,Leaderboard,TeacherLogin,TeacherNotes,Teacher, AssignmentDetails } from '../pages/teacher/index';
 import {Announcement,Discussion,Notes,Assignments,Course,LoginForm,SignUp,Student} from '../pages/student/index'
 
 function Navigation() {
@@ -59,7 +59,7 @@ function Navigation() {
     },
 
     {
-      path : "/teacher/assignments",
+      path : "/teacher/assignment",
       element : <TeacherAssignments />,
     },
     {
@@ -81,6 +81,10 @@ function Navigation() {
     {
       path : '/teacher/discussion',
       element : <TeacherDiscussion />
+    },
+    {
+      path : '/teacher/assignment/:id',
+      element : <AssignmentDetails />
     }
     
     

@@ -6,7 +6,7 @@ import Leaderboard from './Leaderboard'
 import TeacherLogin from './TeacherLogin'
 import TeacherNotes from './Notes'
 import Teacher from './Teacher'
-
+import AssignmentDetails from './AssignmentDetails'
 export {
     TeacherAnnouncement,
     TeacherAssignments,
@@ -15,5 +15,6 @@ export {
     Leaderboard,
     TeacherLogin,
     TeacherNotes,
-    Teacher
+    Teacher,
+    AssignmentDetails
 }

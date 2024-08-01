@@ -5,7 +5,4 @@ const response = await axios.get('http://localhost:3000/teacher/assignment')
 return response.data;
 }
 
-const fetchAssignments = () => {
-
-}
 
