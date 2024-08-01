@@ -33,11 +33,6 @@ async function teacherLoginHandler(req,res){
       }
 }     
 
-async function postAssignment(req,res){
-     const body = req.body 
-     await Assignment.create(body)
-}
-
 
 async function getTeachers(req,res){
   try {
@@ -88,10 +83,8 @@ async function fetchUser(req,res) {
 module.exports = {
     teacherLoginHandler,
     teacherSignUpHandler,
-    postAssignment,
     getTeachers,
     createCourse,
     getCourse,
     fetchUser
-
 }

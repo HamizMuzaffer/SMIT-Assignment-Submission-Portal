@@ -82,9 +82,9 @@ export default function PersistentDrawerLeft() {
 const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
   
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);

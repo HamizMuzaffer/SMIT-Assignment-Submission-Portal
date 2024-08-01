@@ -26,9 +26,7 @@ const initialState = {
     }
     try {
       const response = await axiosInstance.get('/teacher/profile');
-      console.log("response")
-      return response.data;
-      
+      return response.data;  
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

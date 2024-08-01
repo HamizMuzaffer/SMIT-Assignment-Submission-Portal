@@ -29,8 +29,6 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchUser } from '../features/teacher/teacherSlice';
 
 const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -78,14 +76,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function MiniDrawer() {
-    const dispatch = useDispatch();
-    const teacherInfo = useSelector((state) => state.teacher.info);
-
-    useEffect(() => {
-        dispatch(fetchUser());
-    }, [dispatch]);
-
+export default function MiniDrawer({teacherInfo}) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
@@ -183,16 +174,19 @@ export default function MiniDrawer() {
                 variant="persistent"
                 anchor="left"
                 open={open}
-            >
+            >   
                 <DrawerHeader>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pl: 4 }}>
+                    <Link  to='/teacher/home' >
                         <CardMedia
                             component="img"
                             image={image}
                             alt="Description"
 
-                            sx={{ width: '60%', height: 'auto', mb: 2 }}
+                            sx={{ width: '100%', height: 'auto', mb: 2 }}
                         />
+                                        </Link>
+
                     </Box>
 
                     <IconButton onClick={handleDrawerClose}>

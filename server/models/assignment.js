@@ -13,17 +13,18 @@ const assignmentSchema = new mongoose.Schema({
         type: Date,
          required: true
          },
-    fileUrl: { 
+    file: { 
         type: String
     },
+    totalSubmissions: {
+        type: Number,
+        default: 0
+      },
     teacherId : {
         type : mongoose.Schema.Types.ObjectId,
         ref  : 'Teacher'
     },
-    createdAt: { 
-        type: Date,
-        default: Date.now }
-});
+}, {timestamps : true});
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);
 module.exports = Assignment;

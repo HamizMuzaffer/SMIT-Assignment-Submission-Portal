@@ -33,7 +33,6 @@ export const signupUser = createAsyncThunk('student/signup', async (userData, { 
   // fetching Student
   export const fetchStudent = createAsyncThunk('student/fetchStudent', async (_, { rejectWithValue }) => {
     const token = Cookies.get('token');
-    console.log('token',token)
     if (!token) {
       return rejectWithValue('No token found');
     }

@@ -5,6 +5,7 @@ const { checkForAuthenticationCookie } = require("./middlewares/authentication")
 const mongoose = require("mongoose")
 const app = express()
 const bodyParser = require("body-parser")
+const path = require("path")
 //Middlewares 
 const corsOptions = {
     origin: 'http://localhost:5173', // Your frontend URL
@@ -17,6 +18,7 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({extended : false}))
 app.use(checkForAuthenticationCookie("token"))
 
+app.use('/uploads', express.static(path.join(__dirname,'public','uploads')));
 
 
 // Routes 
