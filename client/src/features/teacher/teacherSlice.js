@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 const initialState = {
   user: null,
   isAuthenticated: false,
+  
 };
   
   // Login action
@@ -12,8 +13,22 @@ const initialState = {
       const response = await axiosInstance.post('/teacher/login', teacherData);
       const { teacher, token } = response.data;
       Cookies.set('token', token);
-      console.log({teacher : teacher});
       return teacher;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  });
+
+  export const fetchUser = createAsyncThunk('teacher/fetchUser', async (_, { rejectWithValue }) => {
+    const token = Cookies.get('token');
+    if (!token) {
+      return rejectWithValue('No token found');
+    }
+    try {
+      const response = await axiosInstance.get('/teacher/profile');
+      console.log("response")
+      return response.data;
+      
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -24,27 +39,40 @@ const initialState = {
     initialState,
     reducers: {
       logout(state) {
-        state.teacher = null;
+        state.info = null;
         state.isAuthenticated = false;
         Cookies.remove('token');
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(loginUser.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(loginUser.fulfilled, (state, action) => {
-          state.loading = false;
-          state.teacher = action.payload;
-          state.isAuthenticated = true;
-        })
-        .addCase(loginUser.rejected, (state, action) => {
-          state.loading = false;
-          state.error = action.payload;
-        });
-    },
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.info = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.info = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isAuthenticated = false;
+      });
+  },
   });
   
 

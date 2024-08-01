@@ -59,7 +59,7 @@ function Form() {
         name: '',
         email: '',
         password: '',
-        cnic: '',
+        CNIC: '',
         program: '',
         teacherName: '',
       });
@@ -89,7 +89,7 @@ function Form() {
           label="Name"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
-          value={formData.name}
+          value={formData.name || ''}
           onChange={handleChange}
         />
         <TextField
@@ -100,7 +100,7 @@ function Form() {
           label="Your Email"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
-          value={formData.email}
+          value={formData.email || ''}
           onChange={handleChange}
         />
         <FormHelperText sx={{ fontWeight: 'bold', fontSize: 'small' }} id="my-helper-text">
@@ -114,7 +114,7 @@ function Form() {
           label="Password"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
-          value={formData.password}
+          value={formData.password || ''}
           onChange={handleChange}
         />
         <TextField
@@ -125,7 +125,7 @@ function Form() {
           label="CNIC"
           variant="outlined"
           sx={{ width: '400px', my: 1 }}
-          value={formData.cnic}
+          value={formData.CNIC || ''}
           onChange={handleChange}
         />
         <FormControl fullWidth sx={{ width: '400px' }}>
@@ -139,7 +139,7 @@ function Form() {
             onChange={handleChange}
           >
             {courses.map((course) => (
-          <MenuItem key={course.id} value={course.course}>
+          <MenuItem key={course._id} value={course.course}>
             {course.course}
           </MenuItem>
         ))}
@@ -156,7 +156,7 @@ function Form() {
             onChange={handleChange}
           >
 {teachers.filter((teacher) => teacher.course === formData.courseName).map((filteredTeacher) => (
-  <MenuItem key={filteredTeacher.id} value={filteredTeacher.name}>
+  <MenuItem key={filteredTeacher._id} value={filteredTeacher.name}>
     {filteredTeacher.name}
   </MenuItem>
 ))}

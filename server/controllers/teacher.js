@@ -20,6 +20,7 @@ async function teacherLoginHandler(req,res){
         res.cookie("token", token)
         res.status(200).json({ 
           message: 'Login successful', 
+          token,
           teacher: {
             name: teacher.name,
             email: teacher.email,
@@ -68,12 +69,29 @@ async function getCourse(req,res){
   }
 }
 
+async function fetchUser(req,res) {
+    try {
+      // Ensure req.user has the id property
+      const user = req.user
+      const teacher = await Teacher.findById(user._id);
+      if (!teacher) {
+        return res.status(404).json({ message: 'Teacher not found' });
+      }
+  
+      res.json(teacher);
+    } catch (err) {
+      console.error('Error fetching teacher:', err); // Log error for debugging
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  
+}
 module.exports = {
     teacherLoginHandler,
     teacherSignUpHandler,
     postAssignment,
     getTeachers,
     createCourse,
-    getCourse
+    getCourse,
+    fetchUser
 
 }

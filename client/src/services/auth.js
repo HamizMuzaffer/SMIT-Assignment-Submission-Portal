@@ -3,10 +3,10 @@ import Cookies from 'js-cookie';
 
 // Create an instance of Axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', // Your API base URL
+  baseURL: 'http://localhost:3000', 
+  withCredentials: true,
 });
 
-// Add a request interceptor to include the token in the headers
 axiosInstance.interceptors.request.use((config) => {
   const token = Cookies.get('token');
   if (token) {

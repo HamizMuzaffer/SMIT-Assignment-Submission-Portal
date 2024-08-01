@@ -1,8 +1,8 @@
 const express = require("express")
 const router = express.Router();
-const {teacherLoginHandler,teacherSignUpHandler,postAssignment,getTeachers,getCourse,createCourse} = require("../controllers/teacher")
+const {teacherLoginHandler,teacherSignUpHandler,postAssignment,getTeachers,getCourse,createCourse, fetchUser} = require("../controllers/teacher")
 const Teacher = require("../models/teacher")
-
+const {authenticateToken} = require("../services/authentication")
 
 router.get("/",async(req,res)=>{
    const Teachers = await Teacher.find({})
@@ -19,4 +19,6 @@ router.post("/assignment",postAssignment)
 router.get('/',getTeachers)
 router.post('/course',createCourse)
 router.get('/course',getCourse)
+router.get('/profile', authenticateToken,fetchUser);
+ 
 module.exports = router;

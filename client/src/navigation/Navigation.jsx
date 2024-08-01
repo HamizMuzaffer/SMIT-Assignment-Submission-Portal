@@ -1,17 +1,9 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
-import TeacherLogin from '../pages/teacher/TeacherLogin';
-import Student from '../pages/student/Student';
 import Cookies from 'js-cookie';
-import Notes from '../pages/student/Notes';
-import Assignments from '../pages/student/Assignments';
-import LoginForm from '../pages/student/LoginForm';
-import SignUp from '../pages/student/Signup';
-import Discussion from '../pages/student/Discussion';
-import Course from '../pages/student/Course';
-import Announcement from '../pages/student/Announcement';
-import Teacher from '../pages/teacher/Teacher';
+import { TeacherAnnouncement,TeacherAssignments,TeacherCourse,TeacherDiscussion,Leaderboard,TeacherLogin,TeacherNotes,Teacher } from '../pages/teacher/index';
+import {Announcement,Discussion,Notes,Assignments,Course,LoginForm,SignUp,Student} from '../pages/student/index'
 
 function Navigation() {
   const token = Cookies.get("token")
@@ -65,6 +57,31 @@ function Navigation() {
       path: '/student/announcements',
       element: <Announcement />,
     },
+
+    {
+      path : "/teacher/assignments",
+      element : <TeacherAssignments />,
+    },
+    {
+      path :  "/teacher/announcements",
+      element : <TeacherAnnouncement />
+    },
+    {
+      path :  "/teacher/notes",
+      element : <TeacherNotes />
+    },
+    {
+      path : "/teacher/course",
+      element : <TeacherCourse />
+    },
+    {
+      path: "/teacher/leaderboard",
+      element : <Leaderboard />
+    },
+    {
+      path : '/teacher/discussion',
+      element : <TeacherDiscussion />
+    }
     
     
   ]);

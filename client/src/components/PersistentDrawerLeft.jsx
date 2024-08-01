@@ -8,6 +8,7 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import { useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -26,9 +27,10 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import getTeachers from '../services/getTeacher';
-
+import { useSelector,useDispatch } from 'react-redux';
+import { fetchStudent } from '../features/user/userSlice';
 const drawerWidth = 240;
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
@@ -80,9 +82,9 @@ export default function PersistentDrawerLeft() {
 const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
   
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -102,6 +104,13 @@ const navigate = useNavigate()
       navigate('/student/login');
     }
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchStudent());
+}, [dispatch]);
+  const userInfo = useSelector((state) => state.user.info);
+
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -109,7 +118,7 @@ const navigate = useNavigate()
       <AppBar position="fixed" open={open} sx={{ height: '10vh', bgcolor: '#0b73b7' }}>
   <Toolbar>
     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display : 'flex', alignItems : 'center', justifyContent : 'center'}}>
-      Welcome to Sir Raja Ehsan's Class   <WavingHandIcon />
+      Welcome to {userInfo ? userInfo.teacherName : 'loading'}'s Class <WavingHandIcon />
     </Typography>
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
@@ -133,7 +142,10 @@ const navigate = useNavigate()
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-          
+          <MenuItem>
+            <Typography sx={{px:2}} textAlign="center">{userInfo ? userInfo.name :'...loading'}</Typography>
+          </MenuItem>
+
           <MenuItem  onClick={handleLogout}>
             <Typography sx={{px:2}} textAlign="center">Log Out</Typography>
           </MenuItem>

@@ -6,8 +6,12 @@ const mongoose = require("mongoose")
 const app = express()
 const bodyParser = require("body-parser")
 //Middlewares 
-app.use(cors())
+const corsOptions = {
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true, // Allow cookies to be sent and received
+  };
 app.use(express.json())
+app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended : false}))
