@@ -4,6 +4,7 @@ import Homepage from '../pages/Homepage';
 import Cookies from 'js-cookie';
 import { TeacherAnnouncement,TeacherAssignments,TeacherCourse,TeacherDiscussion,Leaderboard,TeacherLogin,TeacherNotes,Teacher, AssignmentDetails } from '../pages/teacher/index';
 import {Announcement,Discussion,Notes,Assignments,Course,LoginForm,SignUp,Student} from '../pages/student/index'
+import Submission from '../pages/student/Submission';
 
 function Navigation() {
   const token = Cookies.get("token")
@@ -59,7 +60,7 @@ function Navigation() {
     },
 
     {
-      path : "/teacher/assignment",
+      path : "/teacher/assignments",
       element : <TeacherAssignments />,
     },
     {
@@ -83,11 +84,13 @@ function Navigation() {
       element : <TeacherDiscussion />
     },
     {
-      path : '/teacher/assignment/:id',
+      path : '/teacher/assignments/:id',
       element : <AssignmentDetails />
+    },
+    {
+      path : '/student/assignments/:id',
+      element : <Submission />
     }
-    
-    
   ]);
 
   return <RouterProvider router={router} />;

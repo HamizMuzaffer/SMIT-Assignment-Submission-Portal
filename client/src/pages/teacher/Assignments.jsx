@@ -19,7 +19,7 @@ function TeacherAssignments() {
     const fetchData = async () => {
         dispatch(fetchUser());
         const data = await getAssignments();
-        setAssignments(data); // Ensure data is an array
+        setAssignments(data);
 
     };
     fetchData();

@@ -44,17 +44,14 @@ async function fetchStudent(req,res) {
   try {
     const user = req.user
     const student = await Student.findById(user._id);
-    console.log(student)
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-
     res.json(student);
   } catch (err) {
     console.error('Error fetching student:', err); // Log error for debugging
     res.status(500).json({ message: 'Internal Server Error' });
   }
-
 }
 
 module.exports = {

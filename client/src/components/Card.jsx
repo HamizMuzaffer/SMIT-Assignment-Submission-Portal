@@ -16,7 +16,7 @@ export default function BasicCard({ assignments }) {
         day: 'numeric'
     });
     const handleViewDetails = () => {
-        navigate(`/teacher/assignment/${assignments._id}`);
+        navigate(`/teacher/assignments/${assignments._id}`);
       };
     return (
         <Card sx={{ minWidth: 275, width: '80%', my: 3, bgcolor: 'whitesmoke' }}>

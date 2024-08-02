@@ -41,7 +41,6 @@ export const signupUser = createAsyncThunk('student/signup', async (userData, { 
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
-      console.log(response.data)
       return response.data;
       
     } catch (err) {

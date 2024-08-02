@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
 const submissionSchema = mongoose.Schema({
-    submissionLink :{
-        type : String,
-        required : true
+    submissionLink: {
+        type: String,
+        required: true
     },
-    submittedAt : {
-        type: Date,
-        default : Date.now
-    },
-    student: { 
+    studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student',
-        required: true
-        },
-        submissionId :{
-            type: Schema.Types.ObjectId,
-            ref : "Assignment"
-        },    
+        required : true
+    },
+    assignmentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Assignment"
+    },
+    rating : {
+        type : Number,
+        default : null
+    }
 
-}, {timestamps  : true })
+}, { timestamps: true })
 
-const Submission = mongoose.model("Submission",submissionSchema)
+const Submission = mongoose.model("Submission", submissionSchema)
 
-moudule.exports = Submission;
+module.exports = Submission;
