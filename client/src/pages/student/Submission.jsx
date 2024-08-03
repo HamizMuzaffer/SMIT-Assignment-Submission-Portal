@@ -19,6 +19,7 @@ function Submission() {
   const [submissionUrl, setSubmissionUrl] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissions, setSubmissions] = useState([]);
+  const [isSubmission, setIsSubmission] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +29,16 @@ function Submission() {
       setSubmissions(submissionResponse);
       dispatch(fetchStudent());
     };
+
     fetchData();
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (userInfo && submissions.length > 0) {
+      const existingSubmission = submissions.find((submission) => submission.assignmentId === assignment._id && submission.studentId === userInfo._id);
+      setIsSubmission(existingSubmission);
+    }
+  }, [userInfo, submissions, id]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -45,15 +54,14 @@ function Submission() {
       await axios.post('http://localhost:3000/student/assignment/submission', {
         assignmentId: assignment._id,
         submissionLink: submissionUrl,
-        studentId: userInfo._id
+        studentId: userInfo._id,
+        studentName : userInfo.name
       });
       setIsSubmitted(true);
     } catch (error) {
       console.error('Error submitting assignment:', error);
     }
   };
-
-  const isSubmission = submissions.find((submission) => submission.studentId === userInfo?._id);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -114,7 +122,7 @@ function Submission() {
                     <Typography variant="h6" sx={{ mb: 2 }}>
                       Post Your Assignment Link Here
                     </Typography>
-                    {!isSubmitted || !isSubmission ? (
+                    {!isSubmitted && !isSubmission ? (
                       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                         <TextField
                           fullWidth
@@ -137,9 +145,11 @@ function Submission() {
                         </Button>
                       </form>
                     ) : (
+                      <>
                       <Alert severity="success" sx={{ width: '100%', mt: 2 }}>
                         Your assignment has been submitted successfully!
                       </Alert>
+                      </>
                     )}
                   </CardContent>
                 </Card>

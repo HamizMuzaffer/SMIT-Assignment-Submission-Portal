@@ -5,7 +5,7 @@ const Teacher = require("../models/teacher")
 const {authenticateToken} = require("../services/authentication")
 const multer = require("multer")
 const Assignment = require("../models/assignment")
-const { getAssignments, getAssignmentById } = require("../controllers/assignment")
+const { getAssignments, getAssignmentById, updateSubmissionById } = require("../controllers/assignment")
 const path = require("path");
 
 // Multer
@@ -65,4 +65,5 @@ router.post('/assignment', upload.single('file'), async (req, res) => {
 });
 router.get('/assignment',getAssignments)
 router.get('/assignment/:id',getAssignmentById)
+router.post('/assignment/update',updateSubmissionById)
 module.exports = router;

@@ -14,6 +14,10 @@ const submissionSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Assignment"
     },
+    studentName: {
+      type : String,
+      ref  : 'Student'
+    },
     rating : {
         type : Number,
         default : null

@@ -43,14 +43,21 @@ async function getAssignmentById(req,res){
 }
 
 async function assignmentSubmissionHandler(req,res){
-  const {submissionLink,assignmentId,studentId} = req.body;
+  const {submissionLink,assignmentId,studentId,studentName} = req.body;
   const assignmentSubmission = await Submission.create({
     submissionLink,
     assignmentId,
-    studentId
+    studentId,
+    studentName
   })
+
+  await assignmentSubmission.save()
+  await Assignment.findByIdAndUpdate(
+    assignmentId,
+    { $inc: { totalSubmissions: 1 } },
+    { new: true }
+  );
   try {
-    console.log(assignmentSubmission)
     res.status(201).json(assignmentSubmission)
   } catch (error) {
     console.log(error.message)
@@ -78,4 +85,16 @@ async function getAssignmentSubmissionsById(req,res){
   }
 }
 
-module.exports = { postAssignment,getAssignments,getAssignmentById,assignmentSubmissionHandler,getAssignmentSubmissions,getAssignmentSubmissionsById}
+async function updateSubmissionById(req,res){
+  const { rating,_id } = req.body;
+  const reqSubmission = await Submission.findByIdAndUpdate(_id,
+    {rating : rating}
+  )
+    try {
+      res.status(201).json(reqSubmission)
+    } catch (error) {
+      console.log(error.message)
+    }
+  
+}
+module.exports = { postAssignment,getAssignments,getAssignmentById,assignmentSubmissionHandler,getAssignmentSubmissions,getAssignmentSubmissionsById,updateSubmissionById}
