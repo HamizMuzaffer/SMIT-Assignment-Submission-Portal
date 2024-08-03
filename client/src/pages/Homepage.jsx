@@ -39,7 +39,7 @@ function Homepage() {
               Continue as a Teacher
             </Button>
           </Link>
-          <Link to='/student/signup' style={{ textDecoration: 'none', width: '100%' }}>
+          <Link to='/student/login' style={{ textDecoration: 'none', width: '100%' }}>
             <Button
               variant='contained'
               startIcon={<PiStudentBold />}

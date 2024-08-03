@@ -39,7 +39,14 @@ const studentLogoutHandler = async(req,res) => {
   res.clearCookie('token'); // Ensure the path matches where the cookie was set
   res.status(200).json({ message: 'Logout successful' });
 }
-
+async function getAllStudents(req,res){
+  const students = await Student.find({})
+  try {
+    res.status(200).json(students)
+  } catch (error) {
+    console.log(error.message)
+  }
+}
 async function fetchStudent(req,res) {
   try {
     const user = req.user
@@ -58,5 +65,6 @@ module.exports = {
   studentLogInHandler,
   studentSignUpHandler,
   studentLogoutHandler,
-  fetchStudent
+  fetchStudent,
+  getAllStudents
 }

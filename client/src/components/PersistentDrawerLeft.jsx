@@ -179,11 +179,9 @@ export default function PersistentDrawerLeft({ userInfo }) {
               />
             </Link>
           </Box>
-          {isMobile && (
             <IconButton onClick={handleDrawerClose}>
               <CloseIcon />
             </IconButton>
-          )}
         </DrawerHeader>
         <Divider />
         <List>

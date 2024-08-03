@@ -4,6 +4,7 @@ import useAuthRedirect from '../../hooks/CheckAuth';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector,useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react'
+import { Typography } from '@mui/material';
 
 function Student() {
   useAuthRedirect()
@@ -15,7 +16,8 @@ const userInfo = useSelector((state) => state.user.info);
 
   return (
 <>
-<PersistentDrawerLeft userInfo={userInfo} /><div>Hello</div>
+<PersistentDrawerLeft userInfo={userInfo} />
+<Typography>Hello</Typography>
 </>
 
 )

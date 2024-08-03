@@ -1,13 +1,24 @@
-import React from 'react'
+import React,{useEffect,useState}from 'react'
 import useAuthRedirect from '../../hooks/CheckAuth';
 import MiniDrawer from '../../components/Drawer';
-function Teacher()
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../features/teacher/teacherSlice';
 
- {
-    useAuthRedirect()
+function Teacher() {
+  useAuthRedirect()
+  const dispatch = useDispatch();
+  const teacherInfo = useSelector((state) => state.teacher.info);
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchUser());
+      const data = await getAssignments();
+      setAssignments(data);
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
-    <MiniDrawer />
+    <MiniDrawer teacherInfo={teacherInfo} />
   )
 }
 

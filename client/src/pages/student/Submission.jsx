@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Container, Typography, TextField, Button, Card, CardContent, Alert } from '@mui/material';
+import { Box, Container, Typography, TextField, Button, Card, CardContent, Alert, Paper } from '@mui/material';
 import getSubmissions from '../../api/submissions';
 
 const drawerWidth = 240;
@@ -20,6 +20,7 @@ function Submission() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [isSubmission, setIsSubmission] = useState(null);
+  const [isDueDatePassed, setIsDueDatePassed] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,25 +29,27 @@ function Submission() {
       const submissionResponse = await getSubmissions();
       setSubmissions(submissionResponse);
       dispatch(fetchStudent());
+
+      // Check if due date has passed
+      const dueDate = new Date(response.data.dueDate);
+      setIsDueDatePassed(new Date() > dueDate);
     };
 
     fetchData();
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (userInfo && submissions.length > 0) {
+    if (userInfo && submissions.length > 0 && assignment) {
       const existingSubmission = submissions.find((submission) => submission.assignmentId === assignment._id && submission.studentId === userInfo._id);
       setIsSubmission(existingSubmission);
+      if (existingSubmission) {
+        setIsSubmitted(true);
+      }
     }
-  }, [userInfo, submissions, id]);
+  }, [userInfo, submissions, assignment]);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +58,7 @@ function Submission() {
         assignmentId: assignment._id,
         submissionLink: submissionUrl,
         studentId: userInfo._id,
-        studentName : userInfo.name
+        studentName: userInfo.name,
       });
       setIsSubmitted(true);
     } catch (error) {
@@ -63,21 +66,83 @@ function Submission() {
     }
   };
 
+  const renderSubmissionSection = () => {
+    if (isDueDatePassed && !isSubmitted) {
+      return (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          The due date for this assignment has passed. Submissions are no longer accepted.
+        </Alert>
+      );
+    } else if (isSubmitted || isSubmission) {
+      return (
+        <>
+        <Alert severity="success" sx={{ mt: 2 }}>
+            Your assignment has been submitted successfully!
+          </Alert>
+          {
+            isSubmission ? (
+              isSubmission.rating === null ? (
+                <Typography sx={{ textAlign: 'center', color: 'black', mt: 5 }}>Rating: Not Marked Yet</Typography>
+              ) : (
+                <Typography sx={{ textAlign: 'center', color: 'black', mt: 5 }}>Rating: {isSubmission.rating}/5</Typography>
+              )
+            ) : null
+          }
+          
+        </>
+      );
+    } else {
+      return (
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            required
+            type="url"
+            name="assignment"
+            label="Your Assignment Link"
+            variant="outlined"
+            value={submissionUrl}
+            onChange={(e) => setSubmissionUrl(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            endIcon={<SendIcon />}
+            sx={{
+              px: 4,
+              py: 1,
+              bgcolor: 'primary.main',
+              '&:hover': { bgcolor: 'primary.dark' },
+            }}
+          >
+            Submit Assignment
+          </Button>
+        </form>
+      );
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <PersistentDrawerLeft userInfo={userInfo} open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
+      <PersistentDrawerLeft
+        userInfo={userInfo}
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+      />
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          transition: (theme) => theme.transitions.create('margin', {
+          p: { xs: 2, sm: 3 },
+          transition: theme => theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
           marginLeft: `-${drawerWidth}px`,
           ...(open && {
-            transition: (theme) => theme.transitions.create('margin', {
+            transition: theme => theme.transitions.create('margin', {
               easing: theme.transitions.easing.easeOut,
               duration: theme.transitions.duration.enteringScreen,
             }),
@@ -85,78 +150,47 @@ function Submission() {
           }),
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: open ? 'flex-start' : 'center',
-            flexDirection: 'column',
-            mt: 8,
-          }}
-        >
-          <Container
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              ml: open ? 0 : `${drawerWidth}px`,
-              transition: (theme) => theme.transitions.create('margin', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-              }),
-            }}
-          >
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', mb: 3 }}>
-              <Box sx={{ flex: 1, mb: { xs: 3, md: 0 } }}>
-                <Typography variant="h3" sx={{ textAlign: 'start', pb: 1 }}>
-                  {assignment?.title}
+        <Container maxWidth="lg" sx={{ mt: { xs: 8, sm: 10 } }}>
+          <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 2 }}>
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 2,
+                fontWeight: 'bold',
+                color: 'primary.main',
+                wordBreak: 'break-word',
+              }}
+            >
+              {assignment?.title}
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 1 }}>
+              Posted By: {userInfo?.teacherName}
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
+              Due Date: {new Date(assignment?.dueDate).toLocaleString()}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                mb: 4,
+                color: 'text.primary',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+              }}
+            >
+              {assignment?.description}
+            </Typography>
+
+            <Card sx={{ bgcolor: 'background.default', boxShadow: 3, borderRadius: 2 }}>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: 'primary.main' }}>
+                  Submit Your Assignment
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'grey', textAlign: 'start' }}>
-                  Posted By: {userInfo?.teacherName}
-                </Typography>
-                <Typography variant="h5" sx={{ textAlign: 'start', color: 'black', mt: 5 }}>
-                  {assignment?.description}
-                </Typography>
-              </Box>
-              <Box sx={{ flex: 1 }}>
-                <Card sx={{ width: '100%', bgcolor: 'whitesmoke', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'solid grey', p: 3 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                      Post Your Assignment Link Here
-                    </Typography>
-                    {!isSubmitted && !isSubmission ? (
-                      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-                        <TextField
-                          fullWidth
-                          required
-                          type="url"
-                          name="assignment"
-                          label="Your Assignment Link"
-                          variant="outlined"
-                          value={submissionUrl}
-                          onChange={(e) => setSubmissionUrl(e.target.value)}
-                          sx={{ width: '100%', my: 1 }}
-                        />
-                        <Button
-                          type="submit"
-                          variant="contained"
-                          endIcon={<SendIcon />}
-                          sx={{ px: 5, mt: 2 }}
-                        >
-                          Submit Assignment
-                        </Button>
-                      </form>
-                    ) : (
-                      <>
-                      <Alert severity="success" sx={{ width: '100%', mt: 2 }}>
-                        Your assignment has been submitted successfully!
-                      </Alert>
-                      </>
-                    )}
-                  </CardContent>
-                </Card>
-              </Box>
-            </Box>
-          </Container>
-        </Box>
+                {renderSubmissionSection()}
+              </CardContent>
+            </Card>
+          </Paper>
+        </Container>
       </Box>
     </Box>
   );

@@ -24,7 +24,6 @@ function AssignmentDetails() {
                 const assignmentResponse = await axios.get(`http://localhost:3000/teacher/assignment/${id}`);
                 const assignmentData = assignmentResponse.data;
                 setAssignment(assignmentData);
-                // Fetch submissions
                 const submissionsResponse = await getSubmissions();
                 setSubmissions(submissionsResponse);
             } catch (error) {
@@ -37,12 +36,11 @@ function AssignmentDetails() {
 
     useEffect(() => {
         if (assignment && submissions.length > 0) {
-            // Filter submissions after both `assignment` and `submissions` are set
             const filtered = submissions.filter((submission) => submission.assignmentId === assignment._id);
             console.log('Filtered Submission:', filtered);
             setFilteredSubmissions(filtered);
         }
-    }, [assignment, submissions]);  // Dependencies: `assignment` and `submissions`
+    }, [assignment, submissions]);
 
 
     return (

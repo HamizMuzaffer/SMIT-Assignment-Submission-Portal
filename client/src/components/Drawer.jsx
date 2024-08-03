@@ -78,7 +78,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function MiniDrawer({teacherInfo}) {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -197,7 +197,7 @@ export default function MiniDrawer({teacherInfo}) {
                 <List>
           {['Assignments', 'Discussion', 'Announcements'].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton component={Link} to={`/teacher/${text.toLowerCase().replace(' ', '-')}`}>
+              <ListItemButton component={Link} to={`/teacher/${text.toLowerCase().replace(' ', '-')}`} onClick={handleDrawerClose}>
                 <ListItemIcon >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
