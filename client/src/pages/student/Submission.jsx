@@ -13,7 +13,6 @@ const drawerWidth = 240;
 function Submission() {
   const [assignment, setAssignment] = useState();
   const { id } = useParams();
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.info);
   const [open, setOpen] = useState(true);
   const [submissionUrl, setSubmissionUrl] = useState('');
@@ -28,15 +27,12 @@ function Submission() {
       setAssignment(response.data);
       const submissionResponse = await getSubmissions();
       setSubmissions(submissionResponse);
-      dispatch(fetchStudent());
-
-      // Check if due date has passed
       const dueDate = new Date(response.data.dueDate);
       setIsDueDatePassed(new Date() > dueDate);
     };
 
     fetchData();
-  }, [dispatch, id]);
+  }, [id]);
 
   useEffect(() => {
     if (userInfo && submissions.length > 0 && assignment) {

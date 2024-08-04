@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 const app = express()
 const bodyParser = require("body-parser")
 const path = require("path")
+
 //Middlewares 
 const corsOptions = {
     origin: 'http://localhost:5173', // Your frontend URL
@@ -25,9 +26,12 @@ app.use('/uploads', express.static(path.join(__dirname,'public','uploads')));
 const adminRoute = require("./routes/adminRoute")
 const teacherRoute = require("./routes/teacherRoute")
 const studentRoute = require("./routes/StudentRoutes")
+const notesRoute = require("./routes/notesRoute");
+
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);
 app.use("/student",studentRoute)
+app.use("/notes",notesRoute)
 
 
 mongoose.connect("mongodb://localhost:27017/smit")

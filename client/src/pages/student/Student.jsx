@@ -8,10 +8,6 @@ import { Typography } from '@mui/material';
 
 function Student() {
   useAuthRedirect()
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchStudent());
-}, [dispatch]);
 const userInfo = useSelector((state) => state.user.info);
 
   return (

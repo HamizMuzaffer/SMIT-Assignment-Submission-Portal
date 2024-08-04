@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchStudent } from '../../features/user/userSlice';
+import { fetchNotes, addNote, updateNote, deleteNote } from '../../features/notes/notesSlice';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
 import useAuthRedirect from '../../hooks/CheckAuth';
 import { Typography, Container, TextField, Button, Grid, Card, CardContent, CardActions, IconButton, Box, useTheme, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchStudent } from '../../features/user/userSlice';
 import '../../App.css';
 
 const drawerWidth = 240;
@@ -15,7 +16,8 @@ function Notes() {
     useAuthRedirect();
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.user.info);
-    const [notes, setNotes] = useState([]);
+    const notes = useSelector((state) => state.notes.notes);
+    const status = useSelector((state) => state.notes.status);
     const [newNote, setNewNote] = useState({ title: '', content: '' });
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [open, setOpen] = useState(true);
@@ -24,38 +26,40 @@ function Notes() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        const fetchData = async () => {
-            dispatch(fetchStudent());
-            // Replace this with actual API call
-            setNotes([
-                { id: 1, title: 'Lesson Plan', content: 'Prepare lesson plan for next week' },
-                { id: 2, title: 'Meeting Notes', content: 'Discuss student progress in next staff meeting' },
-            ]);
-        };
-        fetchData();
+        dispatch(fetchStudent());
     }, [dispatch]);
 
-    const handleAddNote = () => {
+    useEffect(() => {
+        if (status === 'idle' && userInfo) {
+            console.log('Fetching notes for user:', userInfo._id);
+            dispatch(fetchNotes(userInfo._id));
+        }
+    }, [status, userInfo]);
+
+
+    const handleAddOrUpdateNote = () => {
         if (newNote.title && newNote.content) {
+            const noteWithUser = { ...newNote, userId: userInfo._id };
             if (editingNoteId !== null) {
-                setNotes(notes.map(note =>
-                    note.id === editingNoteId ? { ...note, ...newNote } : note
-                ));
+                dispatch(updateNote({
+                    id: editingNoteId,
+                    note: noteWithUser,
+                }));
                 setEditingNoteId(null);
             } else {
-                setNotes([...notes, { id: Date.now(), ...newNote }]);
+                dispatch(addNote(noteWithUser));
             }
             setNewNote({ title: '', content: '' });
         }
     };
 
     const handleDeleteNote = (id) => {
-        setNotes(notes.filter(note => note.id !== id));
+        dispatch(deleteNote(id));
     };
 
     const handleEditNote = (note) => {
         setNewNote({ title: note.title, content: note.content });
-        setEditingNoteId(note.id);
+        setEditingNoteId(note._id);
     };
 
     const handleDrawerOpen = () => {
@@ -68,8 +72,8 @@ function Notes() {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <PersistentDrawerLeft 
-                userInfo={userInfo} 
+            <PersistentDrawerLeft
+                userInfo={userInfo}
                 open={open}
                 handleDrawerOpen={handleDrawerOpen}
                 handleDrawerClose={handleDrawerClose}
@@ -81,21 +85,21 @@ function Notes() {
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     marginLeft: `-${drawerWidth}px`,
-          ...(open && {
-            transition: theme => theme.transitions.create('margin', {
-              easing: theme.transitions.easing.easeOut,
-              duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-          }),
+                    ...(open && {
+                        transition: theme => theme.transitions.create('margin', {
+                            easing: theme.transitions.easing.easeOut,
+                            duration: theme.transitions.duration.enteringScreen,
+                        }),
+                        marginLeft: 0,
+                    }),
                 }}
             >
                 <Container maxWidth="lg" sx={{
-                    mt: 4, 
-                    mb: 4, 
-                    px: { xs: 2, sm: 3 }, 
-                    display: 'flex', 
-                    flexDirection: 'column', 
+                    mt: 4,
+                    mb: 4,
+                    px: { xs: 2, sm: 3 },
+                    display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
                 }}>
                     <Typography variant='h3' gutterBottom sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}>
@@ -123,41 +127,51 @@ function Notes() {
                         <Button
                             variant="contained"
                             startIcon={<AddIcon />}
-                            onClick={handleAddNote}
+                            onClick={handleAddOrUpdateNote}
                             sx={{ mt: 2, width: isMobile ? '100%' : 'auto' }}
                         >
                             {editingNoteId !== null ? 'Update Note' : 'Add Note'}
                         </Button>
                     </Box>
                     <Grid container spacing={2} justifyContent="center">
-                        {notes.map((note) => (
-                            <Grid item xs={12} sm={6} md={4} key={note.id}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6" component="div" noWrap>
-                                            {note.title}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary" sx={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 3,
-                                            WebkitBoxOrient: 'vertical',
-                                        }}>
-                                            {note.content}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <IconButton aria-label="edit" onClick={() => handleEditNote(note)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton aria-label="delete" onClick={() => handleDeleteNote(note.id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
+                    {notes.length > 0 ? (
+                            notes.filter((note)=> note?.userId === userInfo._id).map((note) => (
+                                <Grid container spacing={2} justifyContent="center">
+
+                                <Grid item xs={12} sm={6} md={4} key={note?._id}>
+                                    <Card>
+                                        <CardContent>
+                                            <Typography variant="h6" component="div" noWrap>
+                                                {note?.title}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary" sx={{
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                display: '-webkit-box',
+                                                WebkitLineClamp: 3,
+                                                WebkitBoxOrient: 'vertical',
+                                            }}>
+                                                {note?.content}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <IconButton  aria-label="edit" onClick={() => handleEditNote(note)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton aria-label="delete" onClick={() => handleDeleteNote(note._id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                                                    </Grid>
+
+                            ))
+                        ) : (
+                            <Typography variant="h6" align="center" color="text.secondary">
+                                No notes available
+                            </Typography>
+                        )}
                     </Grid>
                 </Container>
             </Box>
