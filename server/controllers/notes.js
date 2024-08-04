@@ -51,7 +51,6 @@ async function createNotes(req,res){
 }
 
 async function deleteNote(req,res){
-    const body  = req.body
     try {
         const deleteNote = await Notes.findByIdAndDelete(req.params.id);
         res.status(200).json({msg: 'success'})

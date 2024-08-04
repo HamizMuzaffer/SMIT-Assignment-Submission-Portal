@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import useAuthRedirect from '../../hooks/CheckAuth';
-import { Container, Typography, Card, CardContent, CardHeader, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Container, Typography, Card, CardContent, CardHeader, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import MiniDrawer from '../../components/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import { red } from '@mui/material/colors';
-// import { addAnnouncement, getAnnouncements } from '../../features/announcements/announcementSlice'; // Assuming you have this
-
+import { addAnnouncement, fetchAnnouncements, deleteAnnouncement } from '../../features/announcements/announcementsSlice';
 import '../../App.css';
 
 function TeacherAnnouncement() {
@@ -22,12 +22,20 @@ function TeacherAnnouncement() {
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(fetchUser());
-      const data = await getAnnouncements(); // Ensure getAnnouncements fetches announcements from API
-      setAnnouncements(data);
+      await dispatch(fetchUser());
     };
     fetchData();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (teacherInfo && teacherInfo._id) {
+      const fetchData = async () => {
+        const result = await dispatch(fetchAnnouncements(teacherInfo._id));
+        setAnnouncements(result.payload || []); // Ensure announcements is always an array
+      };
+      fetchData();
+    }
+  }, [dispatch, teacherInfo]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -46,11 +54,16 @@ function TeacherAnnouncement() {
   };
 
   const handleSubmit = async () => {
-    await dispatch(addAnnouncement(newAnnouncement)); // Ensure addAnnouncement is implemented
+    await dispatch(addAnnouncement({ ...newAnnouncement, teacherId: teacherInfo._id, teacherName: teacherInfo.name }));
     setOpen(false);
-    // Re-fetch announcements or update state
-    const data = await getAnnouncements(); 
-    setAnnouncements(data);
+    const result = await dispatch(fetchAnnouncements(teacherInfo._id));
+    setAnnouncements(result.payload || []); // Ensure announcements is always an array
+  };
+
+  const handleDelete = async (announcementId) => {
+    await dispatch(deleteAnnouncement(announcementId));
+    const result = await dispatch(fetchAnnouncements(teacherInfo._id));
+    setAnnouncements(result.payload || []); // Ensure announcements is always an array
   };
 
   return (
@@ -64,24 +77,33 @@ function TeacherAnnouncement() {
           <Button variant="contained" color="primary" onClick={handleOpen} sx={{ mb: 4 }}>
             Add Announcement
           </Button>
-          {announcements?.map((announcement) => (
-            <Card key={announcement.id} sx={{ mb: 4 }}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="teacher">
-                    {announcement.teacher.charAt(0)}
-                  </Avatar>
-                }
-                title={announcement.title}
-                subheader={`Posted by: ${announcement.teacher} on ${new Date(announcement.date).toLocaleDateString()}`}
-              />
-              <CardContent>
-                <Typography variant="body1" color="textSecondary">
-                  {announcement.content}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
+          {announcements.length > 0 ? (
+            announcements.map((announcement) => (
+              <Card key={announcement._id} sx={{ mb: 4 }}>
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="teacher">
+                      {announcement.teacherName.charAt(0)}
+                    </Avatar>
+                  }
+                  title={announcement.title}
+                  subheader={`Posted by: ${announcement.teacherName} on ${new Date(announcement.createdAt).toLocaleDateString()}`}
+                  action={
+                    <IconButton aria-label="delete" onClick={() => handleDelete(announcement._id)}>
+                      <Delete />
+                    </IconButton>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body1" color="textSecondary">
+                    {announcement.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Typography>No announcements found.</Typography>
+          )}
         </Box>
 
         {/* Add Announcement Dialog */}

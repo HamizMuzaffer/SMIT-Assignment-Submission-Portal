@@ -27,11 +27,13 @@ const adminRoute = require("./routes/adminRoute")
 const teacherRoute = require("./routes/teacherRoute")
 const studentRoute = require("./routes/StudentRoutes")
 const notesRoute = require("./routes/notesRoute");
+const messagesRoute = require("./routes/messagesRoute")
 
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);
 app.use("/student",studentRoute)
-app.use("/notes",notesRoute)
+app.use("/notes",notesRoute);
+app.use("/messages",messagesRoute)
 
 
 mongoose.connect("mongodb://localhost:27017/smit")

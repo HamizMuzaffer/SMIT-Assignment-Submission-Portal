@@ -4,7 +4,6 @@ import useAuthRedirect from '../../hooks/CheckAuth';
 import { Typography, Container, Card, CardContent, CardMedia, Grid, Box } from '@mui/material';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import '../../App.css'; // Import the CSS file
 
 function Course() {
   useAuthRedirect();

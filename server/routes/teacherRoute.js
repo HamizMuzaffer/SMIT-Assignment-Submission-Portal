@@ -3,10 +3,11 @@ const router = express.Router();
 const {teacherLoginHandler,teacherSignUpHandler,getTeachers,getCourse,createCourse, fetchUser} = require("../controllers/teacher")
 const Teacher = require("../models/teacher")
 const {authenticateToken} = require("../services/authentication")
-const multer = require("multer")
 const Assignment = require("../models/assignment")
 const { getAssignments, getAssignmentById, updateSubmissionById } = require("../controllers/assignment")
+const {createAnnouncements,getAllAnnouncements,getAnnouncementsById,updateAnnoucementById,deleteAnnouncemenById} = require("../controllers/announcement")
 const path = require("path");
+const multer = require("multer")
 
 // Multer
 const storage = multer.diskStorage({
@@ -66,4 +67,14 @@ router.post('/assignment', upload.single('file'), async (req, res) => {
 router.get('/assignment',getAssignments)
 router.get('/assignment/:id',getAssignmentById)
 router.post('/assignment/update',updateSubmissionById)
+
+// announcements Router 
+
+router.post('/announcements',createAnnouncements)
+router.delete('/announcements/:id',deleteAnnouncemenById)
+router.put('/announcements/:id',updateAnnoucementById)
+router.get('/announcements',getAllAnnouncements)
+router.get('/announcements/:id',getAnnouncementsById)
+
+
 module.exports = router;

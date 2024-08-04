@@ -32,6 +32,10 @@ const studentSchema = mongoose.Schema({
         required : true,
         ref : "Teacher"
     },
+    teacherId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Teacher"
+    },
     salt : {
         type : String,      
      }

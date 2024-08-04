@@ -10,6 +10,8 @@ import getCourses from '../api/getCourses';
 function Form() {
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [teacherId, setTeacherId] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,13 @@ function Form() {
       ...formData,
       [name]: value,
     });
+
+    if (name === 'teacherName') {
+      const selectedTeacher = teachers.find(teacher => teacher.name === value);
+      if (selectedTeacher) {
+        setTeacherId(selectedTeacher._id);
+      }
+    }
   };
 
   const [alert, setAlert] = useState({ severity: '', message: '' });
@@ -51,7 +60,7 @@ function Form() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await dispatch(signupUser(formData)).unwrap();
+      await dispatch(signupUser({...formData, teacherId})).unwrap();
       setAlert({ severity: 'success', message: "Successfully Registered" });
       // Reset form fields
       setFormData({
