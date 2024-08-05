@@ -45,7 +45,7 @@ function TeacherAssignments() {
       formData.append('file', data.file);
       formData.append('teacherId', teacherInfo._id);
 
-      await axios.post('http://localhost:3000/teacher/assignment', formData, {
+      await axios.post('https://smit-server.vercel.app/teacher/assignment', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

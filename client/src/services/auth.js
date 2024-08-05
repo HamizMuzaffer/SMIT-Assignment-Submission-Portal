@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 // Create an instance of Axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: 'https://smit-server.vercel.app', 
   withCredentials: true,
 });
 

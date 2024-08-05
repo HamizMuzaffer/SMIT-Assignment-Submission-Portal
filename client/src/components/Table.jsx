@@ -18,7 +18,7 @@ function SubmissionTable({ submissions }) {
     try {
       const rating = editedRating[submissionId];
       console.log(rating)
-      await axios.post('http://localhost:3000/teacher/assignment/update', {
+      await axios.post('https://smit-server.vercel.app/teacher/assignment/update', {
         _id: submissionId,
         rating,
       });

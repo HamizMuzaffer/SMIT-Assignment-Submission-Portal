@@ -100,7 +100,7 @@ export default function MiniDrawer({teacherInfo}) {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/student/logout");
+            const response = await axios.get("https://smit-server.vercel.app/student/logout");
             console.log('Logout response:', response.data);
             Cookies.remove('token');
             setAnchorElUser(null);

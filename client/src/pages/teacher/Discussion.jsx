@@ -27,7 +27,7 @@ function TeacherDiscussion() {
         if (teacherInfo && teacherInfo._id) {
           const fetchStudents = async () => {
             try {
-              const response = await axios.get(`http://localhost:3000/messages/${teacherInfo._id}`);
+              const response = await axios.get(`https://smit-server.vercel.app/messages/${teacherInfo._id}`);
               console.log(response.data)
               setStudents(response.data);
             } catch (error) {

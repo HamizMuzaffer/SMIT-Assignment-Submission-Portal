@@ -10,7 +10,7 @@ const initialState = {
 export const fetchAnnouncements = createAsyncThunk(
   'announcements/fetchAnnouncements',
   async (id) => {
-    const response = await axios.get(`http://localhost:3000/teacher/announcements/${id}`);
+    const response = await axios.get(`https://smit-server.vercel.app/teacher/announcements/${id}`);
     return response.data;
   }
 );
@@ -18,7 +18,7 @@ export const fetchAnnouncements = createAsyncThunk(
 export const fetchAllAnnouncements = createAsyncThunk(
   'announcements/fetchAllAnnouncements',
   async () => {
-    const response = await axios.get(`http://localhost:3000/teacher/announcements`);
+    const response = await axios.get(`https://smit-server.vercel.app/teacher/announcements`);
     return response.data;
   }
 );
@@ -26,7 +26,7 @@ export const fetchAllAnnouncements = createAsyncThunk(
 export const addAnnouncement = createAsyncThunk(
   'announcements/addAnnouncement',
   async (announcement) => {
-    const response = await axios.post('http://localhost:3000/teacher/announcements', announcement);
+    const response = await axios.post('https://smit-server.vercel.app/teacher/announcements', announcement);
     return response.data;
   }
 );
@@ -34,7 +34,7 @@ export const addAnnouncement = createAsyncThunk(
 export const updateAnnouncement = createAsyncThunk(
   'announcements/updateAnnouncement',
   async ({ id, announcement }) => {
-    const response = await axios.put(`http://localhost:3000/teacher/announcements/${id}`, announcement);
+    const response = await axios.put(`https://smit-server.vercel.app/teacher/announcements/${id}`, announcement);
     return response.data;
   }
 );
@@ -42,7 +42,7 @@ export const updateAnnouncement = createAsyncThunk(
 export const deleteAnnouncement = createAsyncThunk(
   'announcements/deleteAnnouncement',
   async (id) => {
-    await axios.delete(`http://localhost:3000/teacher/announcements/${id}`);
+    await axios.delete(`https://smit-server.vercel.app/teacher/announcements/${id}`);
     return id;
   }
 );

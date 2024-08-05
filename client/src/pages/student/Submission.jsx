@@ -26,7 +26,7 @@ function Submission() {
   useEffect(() => {
     const fetchData = async () => {
        dispatch(fetchStudent())
-      const response = await axios.get(`http://localhost:3000/teacher/assignment/${id}`);
+      const response = await axios.get(`https://smit-server.vercel.app/teacher/assignment/${id}`);
       setAssignment(response.data);
       const submissionResponse = await getSubmissions();
       setSubmissions(submissionResponse);
@@ -53,7 +53,7 @@ function Submission() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/student/assignment/submission', {
+      await axios.post('https://smit-server.vercel.app/student/assignment/submission', {
         assignmentId: assignment._id,
         submissionLink: submissionUrl,
         studentId: userInfo._id,

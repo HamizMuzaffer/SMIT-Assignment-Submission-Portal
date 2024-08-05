@@ -54,7 +54,7 @@ export default function ViewCard({ assignment, teacher }) {
       <CardMedia
         component="img"
         height="194"
-        image={`http://localhost:3000${assignment.file}`}
+        image={`https://smit-server.vercel.app${assignment.file}`}
         alt="Assignment image"
       />
       <CardContent>

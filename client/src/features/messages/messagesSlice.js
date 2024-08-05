@@ -5,7 +5,7 @@ export const sendMessage = createAsyncThunk(
   'messages/sendMessage',
   async (messageData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/messages', messageData);
+      const response = await axios.post('https://smit-server.vercel.app/messages', messageData);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -17,7 +17,7 @@ export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async ({ senderId, receiverId }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:3000/messages/${senderId}/${receiverId}`);
+      const response = await axios.get(`https://smit-server.vercel.app/${senderId}/${receiverId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

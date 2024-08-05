@@ -21,7 +21,7 @@ function AssignmentDetails() {
         const fetchData = async () => {
             try {
                 dispatch(fetchUser());
-                const assignmentResponse = await axios.get(`http://localhost:3000/teacher/assignment/${id}`);
+                const assignmentResponse = await axios.get(`https://smit-server.vercel.app/teacher/assignment/${id}`);
                 const assignmentData = assignmentResponse.data;
                 setAssignment(assignmentData);
                 const submissionsResponse = await getSubmissions();
