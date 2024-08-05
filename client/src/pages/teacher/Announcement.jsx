@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useAuthRedirect from '../../hooks/CheckAuth';
 import { Container, Typography, Card, CardContent, CardHeader, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import MiniDrawer from '../../components/Drawer';
@@ -8,9 +7,9 @@ import { fetchUser } from '../../features/teacher/teacherSlice';
 import { red } from '@mui/material/colors';
 import { addAnnouncement, fetchAnnouncements, deleteAnnouncement } from '../../features/announcements/announcementsSlice';
 import '../../App.css';
-
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 function TeacherAnnouncement() {
-  useAuthRedirect();
+  useTeacherAuthRedirect()
   const [announcements, setAnnouncements] = useState([]);
   const [open, setOpen] = useState(false);
   const [newAnnouncement, setNewAnnouncement] = useState({

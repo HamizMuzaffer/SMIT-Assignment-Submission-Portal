@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import MiniDrawer from '../../components/Drawer';
 import { fetchNotes, addNote, updateNote, deleteNote } from '../../features/notes/notesSlice';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { Typography, Container, TextField, Button, Grid, Card, CardContent, CardActions, IconButton, Box, useTheme, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,7 +13,7 @@ import '../../App.css';
 const drawerWidth = 240;
 
 function TeacherNotes() {
-    useAuthRedirect();
+    useTeacherAuthRedirect()
     const dispatch = useDispatch();
     const teacherInfo = useSelector((state) => state.teacher.info);
     const notes = useSelector((state) => state.notes.notes);
@@ -122,7 +122,7 @@ function TeacherNotes() {
                     </Box>
                         {notes.length > 0 ? (
                             notes.filter((note)=> note?.userId === teacherInfo._id).map((note) => (
-                                <Grid container spacing={2} justifyContent="center">
+                                <Grid container spacing={2} justifyContent="center" key={note._id}>
 
                                 <Grid item xs={12} sm={6} md={4} key={note?._id}>
                                     <Card>

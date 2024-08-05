@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MiniDrawer from '../../components/Drawer';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { Typography, Container, List, ListItem, ListItemText, Box, TextField, Button, Paper, useTheme, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../features/teacher/teacherSlice';
@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 
 function TeacherDiscussion() {
-    useAuthRedirect()
+    useTeacherAuthRedirect()
     const dispatch = useDispatch();
     const teacherInfo = useSelector((state) => state.teacher.info);
     const [students, setStudents] = useState([]);

@@ -2,17 +2,17 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-const useAuthRedirect = () => {
+const useStudentAuthRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = Cookies.get('token');
     if (!token) {
-      navigate('/');
+      navigate('/student/login');
     }
 
     
   }, [navigate]);
 };
 
-export default useAuthRedirect;
+export default useStudentAuthRedirect;

@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchStudent } from '../../features/user/userSlice';
 import { fetchNotes, addNote, updateNote, deleteNote } from '../../features/notes/notesSlice';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
-import useAuthRedirect from '../../hooks/CheckAuth';
 import { Typography, Container, TextField, Button, Grid, Card, CardContent, CardActions, IconButton, Box, useTheme, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import '../../App.css';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 
 const drawerWidth = 240;
 
 function Notes() {
-    useAuthRedirect();
+    useStudentAuthRedirect()
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.user.info);
     const notes = useSelector((state) => state.notes.notes);

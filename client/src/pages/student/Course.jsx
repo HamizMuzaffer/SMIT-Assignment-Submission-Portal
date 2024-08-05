@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 import { Typography, Container, Card, CardContent, CardMedia, Grid, Box } from '@mui/material';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 function Course() {
-  useAuthRedirect();
+  useStudentAuthRedirect()
   const userInfo = useSelector((state) => state.user.info);
   const dispatch = useDispatch();
 

@@ -6,6 +6,7 @@ import SimpleAlert from '../../components/Alert';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 
 function Login() {
     const theme = useTheme();
@@ -14,6 +15,7 @@ function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    useTeacherAuthRedirect()
 
     const handleChange = (e) => {
         const { name, value } = e.target;

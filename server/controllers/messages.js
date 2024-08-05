@@ -19,7 +19,6 @@ async function createMessage (req,res){
 const getStudentsWithMessages = async (req, res) => {
   try {
     const teacherId = req.params.teacherId;
-    console.log('Fetching students for teacher:', teacherId);
     const uniqueSenderIds = await Message.distinct('senderId', { receiverId: teacherId });
     const students = await Student.find({ 
       _id: { $in: uniqueSenderIds },

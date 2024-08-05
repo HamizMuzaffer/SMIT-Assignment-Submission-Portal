@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
 import { Container, Typography, Card, CardContent, CardHeader, Avatar, Box } from '@mui/material';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { red } from '@mui/material/colors';
 import { fetchAllAnnouncements } from '../../features/announcements/announcementsSlice';
-import { CenterFocusStrong } from '@mui/icons-material';
 
 function Announcement() {
-  useAuthRedirect();
+  useStudentAuthRedirect()
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.info);
   const [open, setOpen] = useState(true);

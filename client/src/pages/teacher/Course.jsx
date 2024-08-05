@@ -1,13 +1,13 @@
 import React,{useEffect,useState} from 'react'
 import MiniDrawer from '../../components/Drawer';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { Typography, Container, Card, CardContent, CardMedia, Grid, Box } from '@mui/material';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 function TeacherCourse() {
-    useAuthRedirect()
+  useTeacherAuthRedirect()
     const dispatch = useDispatch();
   const teacherInfo = useSelector((state) => state.teacher.info);
     useEffect(() => {

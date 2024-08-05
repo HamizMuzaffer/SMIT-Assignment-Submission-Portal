@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 import { Typography, Container, Box } from '@mui/material';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,13 +11,14 @@ import ViewCard from '../../components/ViewCard';
 const drawerWidth = 240;
 
 function Assignments() {
+  useStudentAuthRedirect()
   const userInfo = useSelector((state) => state.user.info);
   const [teachers, setTeachers] = useState([])
   const [assignments, setAssignments] = useState([])
   const [filteredTeacher, setFilteredTeacher] = useState(null);
   const [open, setOpen] = useState(true);
 
-  useAuthRedirect()
+  
   const dispatch = useDispatch();
 
   useEffect(() => {

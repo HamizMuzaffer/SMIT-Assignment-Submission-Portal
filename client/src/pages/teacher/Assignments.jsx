@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MiniDrawer from '../../components/Drawer';
 import axios from 'axios';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { Typography, Container, Box, Button, Grid, useTheme, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import getAssignments from '../../api/assignments';
 import BasicCard from '../../components/Card';
 
 function TeacherAssignments() {
-  useAuthRedirect();
+  useTeacherAuthRedirect()
   const dispatch = useDispatch();
   const teacherInfo = useSelector((state) => state.teacher.info);
   const [assignments, setAssignments] = useState([]);

@@ -24,11 +24,11 @@ function Navigation() {
     },
     {
       path: '/student/signup',
-      element : token ? <Student /> : <SignUp />
+      element : <SignUp />
     },
     {
       path: '/student/login',
-      element : token ? <Student /> :  <LoginForm />
+      element : <LoginForm />
     },
     {
       path: '/student/home',

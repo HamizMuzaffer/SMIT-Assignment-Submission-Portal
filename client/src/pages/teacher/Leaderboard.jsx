@@ -5,6 +5,7 @@ import { fetchUser } from '../../features/teacher/teacherSlice';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import getAllStudents from '../../api/getStudent';
 import getSubmissions from '../../api/submissions';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 
 function Leaderboard() {
   const teacherInfo = useSelector((state) => state.teacher.info);
@@ -12,6 +13,7 @@ function Leaderboard() {
   const [students, setStudents] = useState([])
   const [submissions, setSubmissions] = useState([])
   const [filteredStudents, setFilteredStudents] = useState([])
+  useTeacherAuthRedirect()
 
   useEffect(() => {
     const fetchData = async () => {

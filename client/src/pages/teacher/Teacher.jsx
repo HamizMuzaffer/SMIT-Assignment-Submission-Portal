@@ -1,6 +1,6 @@
 import React from 'react';
 import MiniDrawer from '../../components/Drawer';
-import useAuthRedirect from '../../hooks/CheckAuth';
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -12,7 +12,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 function Teacher() {
-    useAuthRedirect();
+    useTeacherAuthRedirect()
     const dispatch = useDispatch();
     const teacherInfo = useSelector((state) => state.teacher.info);
 

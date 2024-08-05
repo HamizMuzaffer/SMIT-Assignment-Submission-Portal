@@ -6,8 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SimpleAlert from '../../components/Alert';
 import { loginUser } from '../../features/user/userSlice';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 
 function LoginForm() {
+    useStudentAuthRedirect()
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();

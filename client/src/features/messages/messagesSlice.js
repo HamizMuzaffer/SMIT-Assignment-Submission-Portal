@@ -18,7 +18,6 @@ export const fetchMessages = createAsyncThunk(
   async ({ senderId, receiverId }, { rejectWithValue }) => {
     try {
       const response = await axios.get(`http://localhost:3000/messages/${senderId}/${receiverId}`);
-      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

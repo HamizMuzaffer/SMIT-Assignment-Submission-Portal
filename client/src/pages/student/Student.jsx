@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
-import useAuthRedirect from '../../hooks/CheckAuth';
 import { fetchStudent } from '../../features/user/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Container, Paper, Box, Avatar, useTheme } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ChatIcon from '@mui/icons-material/Chat';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 
 function Student() {
-  useAuthRedirect();
+  useStudentAuthRedirect()
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.info);
 

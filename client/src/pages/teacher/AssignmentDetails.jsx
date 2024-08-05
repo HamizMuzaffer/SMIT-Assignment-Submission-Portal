@@ -1,6 +1,6 @@
 import React from 'react'
 import MiniDrawer from '../../components/Drawer';
-import useAuthRedirect from '../../hooks/CheckAuth'
+import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ function AssignmentDetails() {
     const [assignment, setAssignment] = useState(null);
     const [submissions, setSubmissions] = useState([]);
     const [filteredSubmissions, setFilteredSubmissions] = useState([])
-    useAuthRedirect()
+    useTeacherAuthRedirect()
     const teacherInfo = useSelector((state) => state.teacher.info);
     const dispatch = useDispatch()
     useEffect(() => {
@@ -46,7 +46,7 @@ function AssignmentDetails() {
     return (
         <>
             <MiniDrawer teacherInfo={teacherInfo} />
-            <Typography variant='h3'>{assignment?.title}</Typography>
+            <Typography variant='h5'>{assignment?.title}</Typography>
             <SubmissionsTable submissions={filteredSubmissions} />
 
         </>

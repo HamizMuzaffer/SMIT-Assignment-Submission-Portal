@@ -7,22 +7,25 @@ import axios from 'axios';
 import SendIcon from '@mui/icons-material/Send';
 import { Box, Container, Typography, TextField, Button, Card, CardContent, Alert, Paper } from '@mui/material';
 import getSubmissions from '../../api/submissions';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
 
 const drawerWidth = 240;
 
 function Submission() {
+  useStudentAuthRedirect()
   const [assignment, setAssignment] = useState();
   const { id } = useParams();
-  const userInfo = useSelector((state) => state.user.info);
   const [open, setOpen] = useState(true);
   const [submissionUrl, setSubmissionUrl] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [isSubmission, setIsSubmission] = useState(null);
   const [isDueDatePassed, setIsDueDatePassed] = useState(false);
-
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user.info);
   useEffect(() => {
     const fetchData = async () => {
+       dispatch(fetchStudent())
       const response = await axios.get(`http://localhost:3000/teacher/assignment/${id}`);
       setAssignment(response.data);
       const submissionResponse = await getSubmissions();

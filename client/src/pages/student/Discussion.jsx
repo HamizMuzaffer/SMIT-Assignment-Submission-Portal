@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import useAuthRedirect from '../../hooks/CheckAuth';
-import { Typography, Container, Box, List,TextField, Button, Paper, useTheme } from '@mui/material';
+import { Typography, Container, Box,TextField, Button, Paper, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStudent } from '../../features/user/userSlice';
 import { sendMessage, fetchMessages } from '../../features/messages/messagesSlice';
 import SendIcon from '@mui/icons-material/Send';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
+import useStudentAuthRedirect from '../../hooks/StudentAuth';
+
 
 function Discussion() {
-    useAuthRedirect()
+    useStudentAuthRedirect()
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.user.info);
     const [message, setMessage] = useState('');
