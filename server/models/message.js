@@ -7,19 +7,16 @@ const messageSchema = mongoose.Schema({
     },
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
     },
-
     receiverId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
     },
-
     createdAt: {
         type: Date,
         default: Date.now
     }
-
 })
 
 const Message = mongoose.model("Message", messageSchema)

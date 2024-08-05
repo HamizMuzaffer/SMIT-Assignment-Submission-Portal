@@ -30,11 +30,11 @@ const studentSchema = mongoose.Schema({
     teacherName : {
         type : String,
         required : true,
-        ref : "Teacher"
     },
     teacherId : {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "Teacher"
+        ref : "Teacher",
+        required : true
     },
     salt : {
         type : String,      

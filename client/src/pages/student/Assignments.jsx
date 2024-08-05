@@ -15,7 +15,7 @@ function Assignments() {
   const [teachers, setTeachers] = useState([])
   const [assignments, setAssignments] = useState([])
   const [filteredTeacher, setFilteredTeacher] = useState(null);
-  const [open, setOpen] = useState(true);  // Start with the drawer open
+  const [open, setOpen] = useState(true);
 
   useAuthRedirect()
   const dispatch = useDispatch();

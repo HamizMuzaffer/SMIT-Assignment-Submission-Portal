@@ -4,7 +4,6 @@ import smitImage from '../assets/smit.png';
 import { Link } from 'react-router-dom';
 import { PiStudentBold } from "react-icons/pi";
 import { FaMouse } from "react-icons/fa";
-
 function Homepage() {
   return (
     <>

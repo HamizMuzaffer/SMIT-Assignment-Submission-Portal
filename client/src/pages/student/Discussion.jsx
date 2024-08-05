@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import useAuthRedirect from '../../hooks/CheckAuth';
-import { Typography, Container, Box, TextField, Button, Paper, useTheme } from '@mui/material';
+import { Typography, Container, Box, List,TextField, Button, Paper, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStudent } from '../../features/user/userSlice';
+import { sendMessage, fetchMessages } from '../../features/messages/messagesSlice';
 import SendIcon from '@mui/icons-material/Send';
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft';
 
@@ -11,11 +12,7 @@ function Discussion() {
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.user.info);
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([
-        { text: "Welcome to the discussion!", sender: 'system' },
-        { text: "Hello, how can I help you?", sender: 'teacher' },
-        { text: "I have a question about the course.", sender: 'student' },
-    ]);
+    const [messages, setMessages] = useState([]);
 
     const theme = useTheme();
 
@@ -23,12 +20,31 @@ function Discussion() {
         dispatch(fetchStudent());
     }, [dispatch]);
 
-    const handleSendMessage = () => {
-        if (message.trim() !== '') {
-            setMessages([...messages, { text: message, sender: 'teacher' }]);
-            setMessage('');
+    useEffect(() => {
+        if (userInfo && userInfo.teacherId) {
+            dispatch(fetchMessages({ senderId: userInfo._id, receiverId: userInfo.teacherId}))
+            .unwrap()
+            .then(setMessages)
+            .catch(error => console.error('Error fetching messages:', error));
         }
-    }
+      }, [userInfo, dispatch]);
+
+      const handleSendMessage = async () => {
+        if (message.trim() !== '' && userInfo && userInfo.teacherId) {
+            await dispatch(sendMessage({
+              text: message,
+              senderId: userInfo._id,
+              receiverId: userInfo.teacherId,
+            }))
+            
+            .unwrap()
+            .then(newMessage => {
+                setMessages(prevMessages => [...prevMessages, newMessage]);
+                setMessage('');
+            })
+            .catch(error => console.error('Error sending message:', error));
+        }
+      };
 
     return (
         <>
@@ -43,14 +59,14 @@ function Discussion() {
                             <Box key={index} sx={{ 
                                 mb: 2, 
                                 display: 'flex', 
-                                justifyContent: msg.sender === 'teacher' ? 'flex-end' : 
-                                                msg.sender === 'student' ? 'flex-start' : 'center'
+                                justifyContent: msg.senderId === userInfo._id ? 'flex-end' :  'flex-start'
+                                                
                             }}>
                                 <Paper elevation={1} sx={{ 
                                     p: 1, 
                                     maxWidth: '70%',
-                                    backgroundColor: msg.sender === 'teacher' ? theme.palette.primary.light : 
-                                                    msg.sender === 'student' ? theme.palette.grey[200] : theme.palette.info.light
+                                    backgroundColor: msg.sender === userInfo._id ? theme.palette.primary.light : 
+                                                    msg.sender === userInfo.teacherId ? theme.palette.grey[200] : theme.palette.info.light
                                 }}>
                                     <Typography variant="body1">{msg.text}</Typography>
                                 </Paper>
