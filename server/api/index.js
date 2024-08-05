@@ -39,7 +39,7 @@ app.use("/messages",messagesRoute)
 
 mongoose.connect(process.env.DATABASE_URL)
 .then(()=>{
-    console.log("DB connected")
+    console.log("DB connected",process.env.DATABASE_URL)
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, ()=>{
         console.log("Server Started",PORT);
