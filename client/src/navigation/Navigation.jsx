@@ -24,7 +24,7 @@ function Navigation() {
     },
     {
       path: '/student/signup',
-      element : <SignUp />
+      element : token ? <Student /> :  <SignUp />
     },
     {
       path: '/student/login',

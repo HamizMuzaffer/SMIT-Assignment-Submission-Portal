@@ -3,10 +3,8 @@ import { Container, Box, CardMedia, Typography, Button, useTheme, useMediaQuery 
 import image from '../../assets/smit.png';
 import Form from '../../components/Form';
 import { Link } from 'react-router-dom';
-import useStudentAuthRedirect from '../../hooks/StudentAuth';
 
 function SignUp() {
-    useStudentAuthRedirect()
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
