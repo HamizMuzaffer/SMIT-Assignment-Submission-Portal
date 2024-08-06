@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const path = require("path");
 const { checkForAuthenticationCookie } = require("../middlewares/authentication");
 const app = express();
@@ -17,8 +16,7 @@ app.use(cors({
 
 // Middlewares
 app.use(express.json());
-app.use(cookieParser(process.env.SECRET_KEY));
-app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(checkForAuthenticationCookie("token"));
 
@@ -30,7 +28,9 @@ const teacherRoute = require("../routes/teacherRoute");
 const studentRoute = require("../routes/StudentRoutes");
 const notesRoute = require("../routes/notesRoute");
 const messagesRoute = require("../routes/messagesRoute");
-
+app.use('/',(req,res)=>{
+  res.send("Hello From Server")
+})
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);
 app.use("/student", studentRoute);
