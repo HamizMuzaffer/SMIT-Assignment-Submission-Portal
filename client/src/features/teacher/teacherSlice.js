@@ -13,6 +13,7 @@ const initialState = {
       const response = await axiosInstance.post('/teacher/login', teacherData);
       const { teacher, token } = response.data;
       Cookies.set('token', token, { secure: true, sameSite: "none" });
+      console.log(token)
       return teacher;
     } catch (err) {
       return rejectWithValue(err.response.data);

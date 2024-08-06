@@ -1,5 +1,4 @@
 const Teacher = require("../models/teacher")
-const Assignment = require("../models/assignment")
 const Course = require("../models/course")
 
 async function teacherSignUpHandler(req,res){
@@ -19,6 +18,7 @@ async function teacherLoginHandler(req,res){
         const {token, teacher} = await Teacher.matchPasswordAndGenerateToken(email,password)
         console.log(token)
         res.cookie("token", token,{
+          httpOnly: true,
           secure: true,
           sameSite: 'none',
           maxAge: 24 * 60 * 60 * 1000 // 24 hours
