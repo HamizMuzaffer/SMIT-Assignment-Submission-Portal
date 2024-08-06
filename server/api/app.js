@@ -1,42 +1,46 @@
-require('dotenv').config()
 const express = require("express");
-const cookieParser = require("cookie-parser")
-const cors = require("cors")
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
 const { checkForAuthenticationCookie } = require("../middlewares/authentication");
-const mongoose = require("mongoose")
-const app = express()
-const bodyParser = require("body-parser")
-const path = require("path")
+const app = express();
 
-//Middlewares 
-const corsOptions = {
-    origin: 'https://smit-server.vercel.app/', // Your frontend URL
-    credentials: true, // Allow cookies to be sent and received
-  };
-app.use(express.json())
-app.use(cors(corsOptions))
-app.use(cookieParser());
-app.use(bodyParser.json())
-app.use(express.urlencoded({extended : false}))
-app.use(checkForAuthenticationCookie("token"))
-
-app.use('/uploads', express.static(path.join(__dirname,'public','uploads')));
+// CORS configuration
+app.use(cors({
+  origin: 'https://smit-student-portal.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 
-// Routes 
-const adminRoute = require("../routes/adminRoute")
-const teacherRoute = require("../routes/teacherRoute")
-const studentRoute = require("../routes/StudentRoutes")
+// Middlewares
+app.use(express.json());
+app.use(cookieParser(process.env.SECRET_KEY));
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(checkForAuthenticationCookie("token"));
+
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
+// Routes
+const adminRoute = require("../routes/adminRoute");
+const teacherRoute = require("../routes/teacherRoute");
+const studentRoute = require("../routes/StudentRoutes");
 const notesRoute = require("../routes/notesRoute");
-const messagesRoute = require("../routes/messagesRoute")
+const messagesRoute = require("../routes/messagesRoute");
 
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);
-app.use("/student",studentRoute)
-app.use("/notes",notesRoute);
-app.use("/messages",messagesRoute)
+app.use("/student", studentRoute);
+app.use("/notes", notesRoute);
+app.use("/messages", messagesRoute);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
-
-
-module.exports = app
+module.exports = app;

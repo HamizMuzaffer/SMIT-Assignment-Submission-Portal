@@ -22,7 +22,9 @@ export const signupUser = createAsyncThunk('student/signup', async (userData, { 
   // Login action
   export const loginUser = createAsyncThunk('student/login', async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/student/login', userData);
+      const response = await axiosInstance.post('/student/login', userData, {
+        withCredentials: true,
+      });
       const { student, token } = response.data;
       Cookies.set('token', token);
       return student;
