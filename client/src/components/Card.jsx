@@ -33,7 +33,7 @@ export default function BasicCard({ assignments }) {
                 </Typography>
                 <CardMedia
                     component="img"
-                    image={`https://smit-server.vercel.app${assignments.file}`}
+                    image={assignments.file}
                     alt="Assignment Image"
                     sx={{ 
                         width: '100%', 
