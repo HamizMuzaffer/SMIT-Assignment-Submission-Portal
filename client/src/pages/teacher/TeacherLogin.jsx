@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormControl, CardMedia, FormHelperText, TextField, Typography, Button, Container, Box, useTheme, useMediaQuery } from '@mui/material';
 import image from '../../assets/smit.png';
 import LoginIcon from '@mui/icons-material/Login';
@@ -8,9 +8,11 @@ import { loginUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 
-
-useTeacherAuthRedirect()
 function Login() {
+    useEffect(() => {
+        useTeacherAuthRedirect()    
+    }, [])
+    
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
