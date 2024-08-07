@@ -9,10 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 
 function Login() {
-    useEffect(() => {
         useTeacherAuthRedirect()    
-    }, [])
-    
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
