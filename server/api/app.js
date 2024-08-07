@@ -28,8 +28,9 @@ const teacherRoute = require("../routes/teacherRoute");
 const studentRoute = require("../routes/StudentRoutes");
 const notesRoute = require("../routes/notesRoute");
 const messagesRoute = require("../routes/messagesRoute");
-app.use('/',(req,res)=>{
-  res.send("Hello From Server")
+
+app.get('/',(req,res)=>{
+  res.json("Hello From Server")
 })
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);

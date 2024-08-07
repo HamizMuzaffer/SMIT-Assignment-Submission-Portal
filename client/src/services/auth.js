@@ -5,6 +5,9 @@ import Cookies from 'js-cookie';
 const axiosInstance = axios.create({
   baseURL: 'https://smit-server.vercel.app', 
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 axiosInstance.interceptors.request.use((config) => {
