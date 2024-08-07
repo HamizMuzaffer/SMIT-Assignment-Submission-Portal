@@ -29,9 +29,7 @@ const studentRoute = require("../routes/StudentRoutes");
 const notesRoute = require("../routes/notesRoute");
 const messagesRoute = require("../routes/messagesRoute");
 
-app.get('/',(req,res)=>{
-  res.json("Hello From Server")
-})
+
 app.use("/admin", adminRoute);
 app.use("/teacher", teacherRoute);
 app.use("/student", studentRoute);

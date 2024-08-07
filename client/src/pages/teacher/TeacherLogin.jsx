@@ -8,6 +8,8 @@ import { loginUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
 
+
+useTeacherAuthRedirect()
 function Login() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
