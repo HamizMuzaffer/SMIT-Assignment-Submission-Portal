@@ -3,7 +3,7 @@ const Submission = require("../models/submission")
 
 
 async function postAssignment(req,res){
-    const {title,description,dueDate,} = req.body
+    const {title,description,dueDate} = req.body
     const assignment = await Assignment.create({
       title,
       description,
