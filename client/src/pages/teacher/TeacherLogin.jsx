@@ -17,8 +17,6 @@ function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const { loading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    useTeacherAuthRedirect()
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
