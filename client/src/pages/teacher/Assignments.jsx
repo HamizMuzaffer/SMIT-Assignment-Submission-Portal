@@ -44,14 +44,13 @@ function TeacherAssignments() {
       formData.append('file', img);
       formData.append('teacherId', teacherInfo._id);
 
-      await axios.post('https://smit-server.vercel.app/teacher/assignment', formData, {
+      await axios.post('https://smit-server.vercel.app/teacher/assignment', formData,{
         headers: {
-          'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
         },
-      });
+    });
 
       setOpen(false);
-      // Refresh assignments after successful submission
       const updatedAssignments = await getAssignments();
       setAssignments(updatedAssignments);
     } catch (error) {
