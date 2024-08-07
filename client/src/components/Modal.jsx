@@ -29,38 +29,26 @@ const modalStyle = {
     p: 4,
 };
 
-const ModalComponent = ({ open, handleClose,onSubmit }) => {
-    // States Initialize
-
-    const steps = ['Title & Description', 'Due Date', 'File Upload'];
+const ModalComponent = ({ open, handleClose, onSubmit }) => {
+    const steps = ['Title & Description', 'Due Date'];
     const [activeStep, setActiveStep] = useState(0);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState(dayjs());
-    const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
 
-
-    // To handle Validation 
     const [titleError, setTitleError] = useState(false);
     const [descriptionError, setDescriptionError] = useState(false);
-    const [fileError, setFileError] = useState(false);
 
     const handleNext = () => {
         if (activeStep === 0) {
             setTitleError(!title);
             setDescriptionError(!description);
             if (!title || !description) return;
-          }
-          if (activeStep === 2) {
-            setFileError(!file);
-            if (!file) return;
-          }
-        if (activeStep < steps.length - 1) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else { 
-            onSubmit({ title, description, dueDate, file });
+        }
+        if (activeStep === steps.length - 1) {
+            onSubmit({ title, description, dueDate });
             setLoading(true);
             setTimeout(() => {
                 setLoading(false);
@@ -69,21 +57,17 @@ const ModalComponent = ({ open, handleClose,onSubmit }) => {
                 setTitle('');
                 setDescription('');
                 setDueDate(dayjs());
-                setFile(null);
                 handleClose();
             }, 1000);
-            console.log({ title, description, dueDate, file});
-            handleClose();
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     };
+
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-        setFileError(false);
-      };
-    
+
     const handleAlertClose = () => {
         setAlertOpen(false);
     };
@@ -115,8 +99,8 @@ const ModalComponent = ({ open, handleClose,onSubmit }) => {
                                 onChange={(e) => {
                                     setTitle(e.target.value);
                                     setTitleError(false);
-                                  }}
-                                error = {titleError}  
+                                }}
+                                error={titleError}
                                 helperText={titleError && "Title is required"}
                                 fullWidth
                                 sx={{ mb: 2 }}
@@ -125,10 +109,10 @@ const ModalComponent = ({ open, handleClose,onSubmit }) => {
                                 label="Description"
                                 value={description}
                                 onChange={(e) => {
-                                    setDescription(e.target.value)
-                                    setDescriptionError(false)
+                                    setDescription(e.target.value);
+                                    setDescriptionError(false);
                                 }}
-                                error = {descriptionError}
+                                error={descriptionError}
                                 helperText={descriptionError && "Description is required"}
                                 multiline
                                 rows={4}
@@ -148,22 +132,6 @@ const ModalComponent = ({ open, handleClose,onSubmit }) => {
                                 renderInput={(params) => <TextField {...params} fullWidth />}
                             />
                         </LocalizationProvider>
-                    )}
-                    {activeStep === 2 && (
-                        <Button
-                            variant="contained"
-                            component="label"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        >
-                            Upload File
-                            <input
-                                type="file"
-                                accept="image/png, image/jpg, image/jpeg"
-                                hidden
-                                onChange={handleFileChange}
-                            />
-                        </Button>
                     )}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                         <Button

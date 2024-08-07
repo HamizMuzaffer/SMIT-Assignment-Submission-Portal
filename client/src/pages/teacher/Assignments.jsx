@@ -10,7 +10,7 @@ import ModalComponent from '../../components/Modal';
 import { fetchUser } from '../../features/teacher/teacherSlice';
 import getAssignments from '../../api/assignments';
 import BasicCard from '../../components/Card';
-
+import img from '../../assets/assignment.jpg'
 function TeacherAssignments() {
   useTeacherAuthRedirect()
   const dispatch = useDispatch();
@@ -18,7 +18,6 @@ function TeacherAssignments() {
   const [assignments, setAssignments] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -42,7 +41,7 @@ function TeacherAssignments() {
       formData.append('title', data.title);
       formData.append('description', data.description);
       formData.append('dueDate', data.dueDate);
-      formData.append('file', data.file);
+      formData.append('file', img);
       formData.append('teacherId', teacherInfo._id);
 
       await axios.post('https://smit-server.vercel.app/teacher/assignment', formData, {

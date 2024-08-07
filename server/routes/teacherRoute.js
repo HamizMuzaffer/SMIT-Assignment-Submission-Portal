@@ -40,30 +40,28 @@ router.get('/',getTeachers)
 router.post('/course',createCourse)
 router.get('/course',getCourse)
 router.get('/profile', authenticateToken,fetchUser);
-router.post('/assignment', upload.single('file'), async (req, res) => {
-
-  const { title, description, dueDate } = req.body;
-  const file = req.file
-  const teacherId = req.body.teacherId; // Make sure teacherId is being sent correctly
-
-  if (!title || !description || !dueDate || !file ) {
+router.post('/assignment',async (req, res) => {
+    const { title, description, file, dueDate, teacherId } = req.body;
+  
+    if (!title || !description || !dueDate || !file || !teacherId) {
       return res.status(400).json({ error: 'All fields are required' });
-  }
-
-  try {
+    }
+  
+    try {
       const assignment = await Assignment.create({
-          title,
-          description,
-          dueDate,
-          file: `/uploads/${req.file.filename}`,
-          teacherId
+        title,
+        description,
+        dueDate,
+        file,
+        teacherId,
       });
+  
       res.status(201).json({ assignment });
-  } catch (error) {
-      console.error(error); // Log the error for debugging
+    } catch (error) {
+      console.error('Error creating assignment:', error); // Ensure you see detailed error information
       res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    }
+  });
 router.get('/assignment',getAssignments)
 router.get('/assignment/:id',getAssignmentById)
 router.post('/assignment/update',updateSubmissionById)
