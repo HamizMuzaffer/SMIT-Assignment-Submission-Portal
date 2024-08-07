@@ -13,10 +13,8 @@ const initialState = {
       const response = await axiosInstance.post('/teacher/login', teacherData, {
         withCredentials: true
       });
-      console.log('Full response:', response);
-      console.log('Response headers:', response.headers);
       const { teacher, token } = response.data;
-      console.log('Received token:', token);
+      Cookies.set('token', token);
       return teacher;
     } catch (err) {
       console.error('Login error:', err);
@@ -26,10 +24,16 @@ const initialState = {
   });
   
   export const fetchUser = createAsyncThunk('teacher/fetchUser', async (_, { rejectWithValue }) => {
+    const token = Cookies.get('token');
+    if (!token) {
+      return rejectWithValue('No token found');
+    }
     try {
       const response = await axiosInstance.get('/teacher/profile', {
+        headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       });
+      
       return response.data;
     } catch (err) {
       console.error('Fetch user error:', err);
