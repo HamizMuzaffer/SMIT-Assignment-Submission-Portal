@@ -10,29 +10,34 @@ const initialState = {
   // Login action
   export const loginUser = createAsyncThunk('teacher/login', async (teacherData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/teacher/login', teacherData);
+      const response = await axiosInstance.post('/teacher/login', teacherData, {
+        withCredentials: true
+      });
+      console.log('Full response:', response);
+      console.log('Response headers:', response.headers);
       const { teacher, token } = response.data;
-      Cookies.set('token', token, { secure: true, sameSite: "none" });
-      console.log(token)
+      console.log('Received token:', token);
       return teacher;
     } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  });
-
-  export const fetchUser = createAsyncThunk('teacher/fetchUser', async (_, { rejectWithValue }) => {
-    const token = Cookies.get('token');
-    if (!token) {
-      return rejectWithValue('No token found');
-    }
-    try {
-      const response = await axiosInstance.get('/teacher/profile');
-      return response.data;  
-    } catch (err) {
-      return rejectWithValue(err.response.data);
+      console.error('Login error:', err);
+      console.log('Error response:', err.response);
+      return rejectWithValue(err.response?.data || 'An error occurred');
     }
   });
   
+  export const fetchUser = createAsyncThunk('teacher/fetchUser', async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/teacher/profile', {
+        withCredentials: true
+      });
+      return response.data;
+    } catch (err) {
+      console.error('Fetch user error:', err);
+      return rejectWithValue(err.response?.data || 'An error occurred');
+    }
+  });
+
+
   const teacherSlice = createSlice({
     name: 'teacher',
     initialState,

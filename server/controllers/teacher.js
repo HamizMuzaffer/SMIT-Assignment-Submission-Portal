@@ -12,31 +12,35 @@ async function teacherSignUpHandler(req,res){
      }}
 
 
-async function teacherLoginHandler(req,res){
-    const {email,password} = req.body;
-    try {
-        const {token, teacher} = await Teacher.matchPasswordAndGenerateToken(email,password)
-        console.log(token)
-        res.cookie("token", token,{
+     async function teacherLoginHandler(req, res) {
+      const { email, password } = req.body;
+      try {
+        const { token, teacher } = await Teacher.matchPasswordAndGenerateToken(email, password);
+        console.log('Generated token:', token);
+        if (!token) {
+          throw new Error('Token generation failed');
+        }
+        res.cookie("token", token, {
           httpOnly: true,
           secure: true,
           sameSite: 'none',
           maxAge: 24 * 60 * 60 * 1000 // 24 hours
-        })
-        res.status(200).json({ 
-          message: 'Login successful', 
+        });
+        console.log('Cookie set:', res.getHeaders()['set-cookie']);
+        res.status(200).json({
+          message: 'Login successful',
           token,
           teacher: {
             name: teacher.name,
             email: teacher.email,
-            id : teacher._id
+            id: teacher._id
           }
-
-        });    
+        });
       } catch (error) {
-        return res.status(401).json({error : error.message})
+        console.error('Login error:', error);
+        return res.status(401).json({ error: error.message });
       }
-}     
+    }
 
 
 async function getTeachers(req,res){

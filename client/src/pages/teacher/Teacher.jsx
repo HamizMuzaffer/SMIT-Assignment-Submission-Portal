@@ -17,7 +17,8 @@ function Teacher() {
     const teacherInfo = useSelector((state) => state.teacher.info);
 
     useEffect(() => {
-        dispatch(fetchUser());
+        dispatch(fetchUser());       
+         console.log('All cookies:', document.cookie);       
     }, [dispatch]);
 
     const theme = useTheme();
