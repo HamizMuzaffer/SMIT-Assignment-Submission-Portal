@@ -32,20 +32,26 @@ function LoginForm() {
                 navigate('/student/home');
             }, 1000);
         } catch (error) {
-            setAlert({ severity: 'error', message: "Login Failed: Incorrect Password or Email" });
+            setAlert({ severity: 'error', message: "Incorrect Password or Email" });
             console.error(error); // Log the entire error for debugging purposes
         }
     };
 
     return (
-        <Container maxWidth={false} disableGutters sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            minHeight: '100vh', 
+
+        <Container maxWidth={false} disableGutters sx={{
+
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
             bgcolor: theme.palette.background.default,
             p: { xs: 2, sm: 3 },
         }}>
+            <Box sx={{position : 'absolute'}}>
+            {alert.message && <SimpleAlert severity={alert.severity} message={alert.message} />}
+            </Box>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -69,7 +75,7 @@ function LoginForm() {
                         mb: 2,
                     }}
                 />
-                <Typography variant={isMobile ? 'h6' : 'h5'} sx={{ 
+                <Typography variant={isMobile ? 'h6' : 'h5'} sx={{
                     fontWeight: 'bold',
                     mb: 2,
                     textAlign: 'center',
@@ -77,7 +83,6 @@ function LoginForm() {
                 }}>
                     Student Login
                 </Typography>
-                {alert.message && <SimpleAlert severity={alert.severity} message={alert.message} />}
                 <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                     <FormControl fullWidth>
                         <TextField
@@ -93,7 +98,6 @@ function LoginForm() {
                             sx={{ mb: 2 }}
                         />
                         <FormHelperText sx={{ fontWeight: 'bold', fontSize: '0.7rem' }}>
-                            We'll never share your email.
                         </FormHelperText>
                         <TextField
                             fullWidth
@@ -106,10 +110,10 @@ function LoginForm() {
                             name='password'
                             sx={{ mb: 2 }}
                         />
-                        <Button 
-                            variant="contained" 
-                            startIcon={<LoginIcon />} 
-                            type='submit' 
+                        <Button
+                            variant="contained"
+                            startIcon={<LoginIcon />}
+                            type='submit'
                             fullWidth
                             disabled={loading}
                         >
@@ -117,7 +121,7 @@ function LoginForm() {
                         </Button>
                     </FormControl>
                 </form>
-                <Button 
+                <Button
                     component={Link}
                     to='/student/signup'
                     sx={{ mt: 2, color: 'black' }}
