@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import SimpleAlert from '../../components/Alert';
 import { loginUser } from '../../features/user/userSlice';
 import useStudentAuthRedirect from '../../hooks/StudentAuth';
-
+import LoadButton from '../../components/LoadingButton';
 function LoginForm() {
     useStudentAuthRedirect()
     const theme = useTheme();
+    const [buttonloading, setButtonLoading] = useState(false);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -25,13 +26,17 @@ function LoginForm() {
     const [alert, setAlert] = useState({ severity: '', message: '' });
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setButtonLoading(true);
         try {
             await dispatch(loginUser(formData)).unwrap();
             setAlert({ severity: 'success', message: "Login Successful" });
+            setButtonLoading(false);
             setTimeout(() => {
+                setButtonLoading(false);
                 navigate('/student/home');
             }, 1000);
         } catch (error) {
+            setButtonLoading(false); 
             setAlert({ severity: 'error', message: "Incorrect Password or Email" });
             console.error(error); // Log the entire error for debugging purposes
         }
@@ -48,8 +53,8 @@ function LoginForm() {
             bgcolor: theme.palette.background.default,
             p: { xs: 2, sm: 3 },
         }}>
-            <Box sx={{position : 'absolute'}}>
-            {alert.message && <SimpleAlert severity={alert.severity} message={alert.message} />}
+            <Box sx={{ position: 'absolute' }}>
+                {alert.message && <SimpleAlert severity={alert.severity} message={alert.message} />}
             </Box>
 
             <Box
@@ -110,15 +115,9 @@ function LoginForm() {
                             name='password'
                             sx={{ mb: 2 }}
                         />
-                        <Button
-                            variant="contained"
-                            startIcon={<LoginIcon />}
-                            type='submit'
-                            fullWidth
-                            disabled={loading}
-                        >
-                            {loading ? 'Logging in...' : 'Login'}
-                        </Button>
+                        <LoadButton loading={buttonloading} type="submit"/>
+
+
                     </FormControl>
                 </form>
                 <Button

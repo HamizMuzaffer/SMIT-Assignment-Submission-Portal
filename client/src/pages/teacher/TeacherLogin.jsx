@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../features/teacher/teacherSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import useTeacherAuthRedirect from '../../hooks/TeacherAuth';
+import LoadButton from '../../components/LoadingButton';
 
 function Login() {
         useTeacherAuthRedirect()    
     const theme = useTheme();
+    const [buttonloading, setButtonLoading] = useState(false);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -27,13 +29,16 @@ function Login() {
     const [alert, setAlert] = useState({ severity: '', message: '' });
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setButtonLoading(true)
         try {
             await dispatch(loginUser(formData)).unwrap();
             setAlert({ severity: 'success', message: "Login Successful" });
             setTimeout(() => {
                 navigate('/teacher/home');
+                setButtonLoading(false)
             }, 1000);
         } catch (error) {
+            setButtonLoading(false)
             setAlert({ severity: 'error', message: error.error || "Login Failed: Incorrect Password or Email" });
             console.error("Error during login:", error);
         }
@@ -106,15 +111,7 @@ function Login() {
                             onChange={handleChange}
                             sx={{ mb: 2 }}
                         />
-                        <Button 
-                            type='submit' 
-                            variant="contained" 
-                            startIcon={<LoginIcon />} 
-                            fullWidth
-                            disabled={loading}
-                        >
-                            {loading ? 'Logging in...' : 'Login'}
-                        </Button>
+                        <LoadButton type="submit" loading={buttonloading}/>
                     </FormControl>
                 </form>
             </Box>
